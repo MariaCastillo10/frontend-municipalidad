@@ -1,0 +1,25 @@
+[
+  {
+    "dni": "12345678",
+    "codigoTramite": "TRM001",
+    "estado": "En proceso",
+    "ultimaActualizacion": "2025-05-14",
+    "areaActual": "Legal"
+  },
+  {
+    "dni": "87654321",
+    "codigoTramite": "TRM002",
+    "estado": "Finalizado",
+    "ultimaActualizacion": "2025-05-12",
+    "areaActual": "Archivo"
+  },
+  
+  {
+  "dni": "71609330",
+  "nombre": "Maria Castillo",
+  "tipoTramite": "Divorcio",
+  "fechaRegistro": "2025-05-15",
+  "estado": "En proceso"
+}
+
+]

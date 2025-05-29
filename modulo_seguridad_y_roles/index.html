@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Seguridad y Roles</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Gestión de Seguridad y Roles</h1>
+
+    <form id="formSeguridad">
+      <input type="text" id="usuario" placeholder="Nombre de Usuario" required>
+      <select id="rol" required>
+        <option value="">Seleccione un Rol</option>
+        <option value="Administrador">Administrador</option>
+        <option value="Secretaria">Secretaria</option>
+        <option value="Abogado">Abogado</option>
+      </select>
+      <button type="submit">Asignar Rol</button>
+    </form>
+
+    <table id="tablaSeguridad">
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Rol Asignado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Datos dinámicos aquí -->
+      </tbody>
+    </table>
+  </div>
+
+  <script src="seguridad_roles.js"></script>
+</body>
+</html>

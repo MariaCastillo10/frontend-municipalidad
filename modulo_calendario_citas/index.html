@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario de Citas y Audiencias</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📅 Calendario de Citas y Audiencias</h1>
+        <form id="formCita">
+            <label for="dni">DNI del Ciudadano:</label>
+            <input type="text" id="dni" required placeholder="Ingrese DNI">
+
+            <label for="tipoTramite">Tipo de Trámite:</label>
+            <select id="tipoTramite" required>
+                <option value="">Seleccione...</option>
+                <option value="Divorcio">Divorcio</option>
+                <option value="Licencia">Licencia</option>
+                <option value="Certificado">Certificado</option>
+            </select>
+
+            <label for="fecha">Fecha de Cita:</label>
+            <input type="date" id="fecha" required>
+
+            <label for="hora">Hora:</label>
+            <input type="time" id="hora" required>
+
+            <button type="submit">Asignar Cita</button>
+        </form>
+
+        <h2>📋 Citas Programadas</h2>
+        <table id="tablaCitas">
+            <thead>
+                <tr>
+                    <th>DNI</th>
+                    <th>Tipo de Trámite</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Contenido dinámico -->
+            </tbody>
+        </table>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
