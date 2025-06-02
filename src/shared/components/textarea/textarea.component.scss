@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+textarea {
+  margin-top: 0.7rem;
+
+  &:disabled {
+    background-color: #e2e8f0 !important;
+  }
+}
+
+.required {
+  color: red !important;
+}

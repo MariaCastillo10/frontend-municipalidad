@@ -1,0 +1,35 @@
+div {
+    display: block;
+    width: 100%;
+  }
+
+.p-card {
+    margin: 1rem 0.5rem;
+    border-radius: 8px;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .p-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .p-card .p-card-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .p-card .p-card-subheader {
+    font-size: 1rem;
+    color: #666;
+  }
+
+
+  .p-grid > .p-col-12 {
+    padding: 0.5rem; /* Espaciado entre los cards */
+  }
+
+
+//   .p-grid > .p-col-12.p-md-2 {
+//     flex: 0 0 20%; 
+//     max-width: 20%;
+//   }

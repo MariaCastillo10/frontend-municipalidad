@@ -1,0 +1,26 @@
+<div class="ims-dropdown-wrapper p-fluid flex flex-column">
+  <label
+    [for]="name"
+    class="text-900 font-semibold"
+    [ngClass]="{ required: isInvalid() }"
+  >
+    {{ label }}
+    <span *ngIf="required" class="required"> *</span>
+  </label>
+  <div class="dropdown-container">
+    <p-multiSelect
+      [options]="options"
+      [(ngModel)]="selectedItems"
+      (onChange)="onSelectionChange($event)"
+      [placeholder]="placeholder"
+      scrollHeight="250px"
+      display="chip"
+      class="custom-multiselect"
+      [ngClass]="{ 'ng-invalid ng-dirty': isInvalid() }"
+    >
+    </p-multiSelect>
+  </div>
+  <span *ngIf="isInvalid() && required" class="required ml-3 mt-2"
+    >Este Campo es requerido</span
+  >
+</div>

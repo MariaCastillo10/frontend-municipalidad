@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.ims-calendar-wrapper {
+  margin-top: 0.7rem;
+
+  .required {
+    color: red !important;
+  }
+}
+
+.ng-invalid.ng-dirty .p-calendar {
+  border-color: red !important;
+}

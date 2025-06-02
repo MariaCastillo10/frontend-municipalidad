@@ -1,0 +1,97 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="card">
+  <div class="p-fluid">
+    <label class="custom-file-upload">
+      <input
+        type="file"
+        id="file-upload"
+        (click)="onFileClick($event)"
+        (change)="onImageUpload($event)"
+        multiple
+        accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff"
+      />
+      Seleccionar
+    </label>
+  </div>
+
+  <div class="existing-images">
+    <div
+      *ngFor="let image of existingImages; let index = index"
+      class="image-container"
+    >
+      <img
+        [src]="image.url"
+        [alt]="image.name"
+        class="thumbnail"
+        (click)="imageExistingPreview(index)"
+      />
+      <button class="delete-button" (click)="deleteExistingImage(index)">
+        <i class="fas fa-trash-alt"></i>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="images.length > 0" class="grid-container">
+    <div class="grid">
+      <div
+        *ngFor="let image of images; let index = index"
+        class="image-container"
+        key="index"
+      >
+        <button class="delete-button" (click)="deleteImage(index)">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+        <img
+          [src]="image.thumbnailImageSrc"
+          [alt]="image.alt"
+          class="thumbnail"
+          (click)="imageClick(index)"
+        />
+      </div>
+    </div>
+  </div>
+
+  <p-galleria
+    [value]="images"
+    [(visible)]="displayCustom"
+    [(activeIndex)]="activeIndex"
+    [responsiveOptions]="responsiveOptions"
+    [containerStyle]="{ 'max-width': '850px' }"
+    [numVisible]="7"
+    [circular]="true"
+    [fullScreen]="true"
+    [showItemNavigators]="true"
+    [showThumbnails]="false"
+  >
+    <ng-template pTemplate="item" let-item>
+      <img
+        [src]="item.itemImageSrc"
+        style="width: 100%; display: block"
+        alt="sin Imagen"
+      />
+    </ng-template>
+  </p-galleria>
+
+  <p-galleria
+    [value]="existingImages"
+    [(visible)]="showPreviewImage"
+    [(activeIndex)]="activeIndex2"
+    [responsiveOptions]="responsiveOptions"
+    [containerStyle]="{ 'max-width': '850px' }"
+    [numVisible]="7"
+    [circular]="true"
+    [fullScreen]="true"
+    [showItemNavigators]="true"
+    [showThumbnails]="false"
+  >
+    <ng-template pTemplate="item" let-item>
+      <img
+        [src]="item.url"
+        style="width: 100%; display: block"
+        alt="sin Imagen"
+      />
+    </ng-template>
+  </p-galleria>
+</div>
+<p-toast></p-toast>

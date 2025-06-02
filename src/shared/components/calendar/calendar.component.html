@@ -1,0 +1,9 @@
+<div class="ims-calendar-wrapper p-fluid flex flex-column">
+  <label [for]="name" class="text-900 font-semibold" [ngClass]="{ required: isInvalid() }">
+    {{ label }}
+    <span *ngIf="required" class="required"> * </span>
+  </label>
+  <p-calendar [id]="name" [(ngModel)]="value" [showIcon]="true" [disabled]="disabled" dateFormat="dd/mm/yy"
+    (onSelect)="setValue($event)"></p-calendar>
+  <span *ngIf="isInvalid()" class="required ml-3 mt-2">Este campo es requerido</span>
+</div>

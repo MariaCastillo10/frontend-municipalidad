@@ -1,0 +1,30 @@
+<div
+  *ngIf="menuVisible"
+  class="layout-sidebar"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+>
+  <style>
+    .sidebar-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  </style>
+  <div class="sidebar-header">
+    <img
+      src="assets/layout/images/favicon-cevicheria.png"
+      alt="logo header"
+      width="200px"
+      height="140px"
+    />
+    <div class="profile-name font-italic">{{ nombreUsuario }}</div>
+    <div class="profile-name font-bold">
+      {{ esAdmin ? "Administrador" : "Usuario" }}
+    </div>
+  </div>
+
+  <div #menuContainer class="layout-menu-container">
+    <app-menu></app-menu>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+.spinner-wrapper {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  z-index: 999;
+  background-color: rgba(250, 250, 250, 0.7);
+  z-index: 9999;
+  // opacity: 0.5;
+}

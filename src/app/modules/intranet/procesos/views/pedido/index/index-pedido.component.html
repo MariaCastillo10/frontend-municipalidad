@@ -1,0 +1,33 @@
+<div class="p-grid p-nogutter">
+  <div class="p-col-3 p-md-2" *ngFor="let pedido of pedidos">
+    <p-card
+      [style]="{ borderColor: pedido.color, borderWidth: '2px' }"
+      header="Pedido #{{ pedido.numeroPedido }}"
+      subheader="Mesa #{{ pedido.numeroMesa }}"
+    >
+      <div class="p-d-flex p-ai-center p-jc-between">
+        <span class="p-text-bold">
+          <i class="pi pi-clock" style="margin-right: 0.5rem"></i>Hora:
+        </span>
+        <span>{{ pedido.hora }}</span>
+      </div>
+      <div class="p-d-flex p-ai-center p-jc-between">
+        <span class="p-text-bold">Estado:</span>
+        <span>{{ pedido.estado }}</span>
+      </div>
+      <div class="p-mt-3">
+        <span class="p-text-bold">Resumen:</span>
+        <p>{{ pedido.resumen }}</p>
+      </div>
+      <ng-template pTemplate="footer">
+        <button
+          pButton
+          type="button"
+          label="Ver Detalles"
+          icon="pi pi-eye"
+          class="p-button-text"
+        ></button>
+      </ng-template>
+    </p-card>
+  </div>
+</div>

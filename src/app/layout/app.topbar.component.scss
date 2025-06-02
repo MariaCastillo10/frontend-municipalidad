@@ -1,0 +1,42 @@
+:host {
+  display: flex;
+  align-items: flex-start;
+}
+.topbar-language {
+  position: relative;
+}
+
+.language-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+}
+
+.language-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.language-dropdown.show {
+  display: block;
+}
+
+.language-dropdown li {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.language-dropdown li:hover {
+  background-color: #f0f0f0;
+}

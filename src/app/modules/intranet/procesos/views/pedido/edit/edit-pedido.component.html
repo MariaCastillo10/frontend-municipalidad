@@ -1,0 +1,69 @@
+<ims-popup
+  [visible]="visible"
+  [title]="title"
+  [width]="'30vw'"
+  (onClose)="close()"
+>
+  <form [formGroup]="form">
+    <div *ngIf="data" class="p-fluid grid">
+      <div class="col-6">
+        <ims-input
+          formControlName="codigo"
+          label="Código"
+          type="text"
+          [required]="true"
+        ></ims-input>
+      </div>
+      <div class="col-6">
+        <ims-input
+          formControlName="nombre"
+          label="Nombre"
+          type="text"
+          [required]="true"
+        ></ims-input>
+      </div>
+      <div class="col-6">
+        <ims-input
+          formControlName="costo"
+          label="Costo"
+          type="number"
+          [required]="true"
+        ></ims-input>
+      </div>
+      <div class="col-6">
+        <ims-input
+          formControlName="unidades"
+          label="Unidades."
+          type="number"
+          [required]="true"
+        ></ims-input>
+      </div>
+      <div class="col-12">
+        <ims-input
+          formControlName="porciones"
+          label="Porciones"
+          type="number"
+          [required]="true"
+        ></ims-input>
+      </div>
+    </div>
+  </form>
+  <p-footer class="footer-buttons">
+    <button
+      pButton
+      type="button"
+      label="Guardar"
+      icon="pi pi-check"
+      [disabled]="form.invalid"
+      (click)="save()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Cancelar"
+      icon="pi pi-times"
+      (click)="close()"
+      class="p-button-danger"
+    ></button>
+  </p-footer>
+</ims-popup>

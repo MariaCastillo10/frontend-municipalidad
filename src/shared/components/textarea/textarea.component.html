@@ -1,0 +1,14 @@
+<div class="ims-textarea-wrapper p-fluid flex flex-column">
+  <label [for]="name" class="text-900 font-semibold" [ngClass]="{ required: isInvalid() && required }">
+    {{ label }}
+    @if (required) {
+    <span class="required"> * </span>
+    }
+  </label>
+  <textarea [ngClass]="{ 'ng-invalid ng-dirty': isInvalid() }" [id]="name" [name]="name" rows="6" pInputTextarea
+    [placeholder]="placeholder" [autoResize]="!resize" [value]="value" (input)="setValue($event)"
+    [disabled]="disabled"></textarea>
+  @if (isInvalid() && required) {
+  <span class="required ml-3 mt-2"> Este Campo es requerido</span>
+  }
+</div>

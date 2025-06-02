@@ -1,0 +1,10 @@
+<p-dialog
+  [(visible)]="visible"
+  [modal]="true"
+  [closable]="false"
+  [header]="title"
+  [style]="{ width: dynamicWidth, 'max-height': '90vh' }"
+  (onHide)="closeDialog()"
+>
+  <ng-content></ng-content>
+</p-dialog>

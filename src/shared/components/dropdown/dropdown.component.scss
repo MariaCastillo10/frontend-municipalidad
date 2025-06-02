@@ -1,0 +1,22 @@
+:host {
+    display: block;
+}
+
+.ims-dropdown-wrapper {
+    .required {
+        color: red !important;
+    }
+}
+
+.custom-dropdown {
+    .p-dropdown-label {
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis !important;
+        white-space: nowrap;
+    }
+}
+
+.ng-invalid.ng-dirty .p-dropdown {
+    border-color: red !important;
+}

@@ -1,0 +1,8 @@
+{
+  "**/*.{json,md}": ["prettier --write --config .prettierrc"],
+  "**/*.{js,ts,html}": [
+    "prettier --write --config .prettierrc",
+    "eslint --quiet --fix"
+  ],
+  "**/*.{css,scss}": ["prettier --write --config .prettierrc"]
+}

@@ -1,0 +1,26 @@
+:host,
+.container-welcome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.welcome-text {
+  font-size: 6rem;
+
+  &-small {
+    font-size: 4.5rem;
+  }
+
+  .company-name {
+    font-weight: bold;
+  }
+}
+
+.container-welcome {
+  gap: 20px;
+  .logo {
+    opacity: 0.9;
+  }
+}

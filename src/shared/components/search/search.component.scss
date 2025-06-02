@@ -1,0 +1,36 @@
+.p-input-icon-left {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.p-input-icon-left .pi {
+  position: absolute;
+  left: 0.75rem;
+  color: #6c757d;
+}
+
+.p-input-icon-left input {
+  padding-left: 2.5rem;
+  width: 100%;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  height: 2.5rem;
+  box-shadow: none;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+.p-input-icon-left input:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+@media screen and (max-width: 576px) {
+  :host {
+    width: 100% !important;
+  }
+}

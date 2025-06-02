@@ -1,0 +1,29 @@
+<div class="ims-input-wrapper p-fluid flex flex-column">
+  <label
+    [for]="name"
+    class="text-900 font-semibold"
+    [ngClass]="{ required: isInvalid() }"
+  >
+    {{ label }}
+    <span *ngIf="required" class="required"> *</span>
+  </label>
+  <div class="p-inputgroup">
+    <span *ngIf="icon" class="p-inputgroup-addon">
+      <i [class]="icon"></i>
+    </span>
+    <input
+      [ngClass]="{ 'ng-invalid ng-dirty': isInvalid() }"
+      [id]="name"
+      [name]="name"
+      pInputText
+      [placeholder]="placeholder"
+      (input)="setValue($event)"
+      [disabled]="disabled"
+      [value]="value"
+      [type]="type"
+    />
+  </div>
+  <span *ngIf="isInvalid() && required" class="required ml-3 mt-2">
+    Este Campo es requerido
+  </span>
+</div>

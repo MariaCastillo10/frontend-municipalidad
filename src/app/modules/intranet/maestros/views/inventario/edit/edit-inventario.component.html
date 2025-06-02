@@ -1,0 +1,147 @@
+<ims-popup
+  [visible]="visible"
+  [title]="title"
+  [width]="'60vw'"
+  (onClose)="close()"
+>
+  <form [formGroup]="form">
+    <div *ngIf="data" class="p-fluid grid">
+      <div class="col-12 md:col-6">
+        <h4>Datos del Solicitante</h4>
+        <ims-input
+          formControlName="dniSolicitante"
+          label="DNI"
+          type="text"
+          [required]="true"
+        ></ims-input>
+        <ims-input
+          formControlName="nombreSolicitante"
+          label="Nombres"
+          type="text"
+          [required]="true"
+        ></ims-input>
+        <ims-input
+          formControlName="correoSolicitante"
+          label="Correo"
+          type="email"
+          [required]="true"
+        ></ims-input>
+        <ims-input
+          formControlName="celularSolicitante"
+          label="Celular"
+          type="text"
+          [required]="true"
+        ></ims-input>
+        <ims-input
+          formControlName="direccionSolicitante"
+          label="Dirección"
+          type="text"
+          [required]="true"
+        ></ims-input>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <h4>Datos del Cónyuge</h4>
+        <ims-input
+          formControlName="dniConyuge"
+          label="DNI"
+          type="text"
+          [required]="true"
+        ></ims-input>
+        <ims-input
+          formControlName="nombreConyuge"
+          label="Nombres"
+          type="text"
+          [required]="true"
+        ></ims-input>
+        <ims-input
+          formControlName="correoConyuge"
+          label="Correo"
+          type="email"
+          [required]="true"
+        ></ims-input>
+        <ims-input
+          formControlName="celularConyuge"
+          label="Celular"
+          type="text"
+          [required]="true"
+        ></ims-input>
+      </div>
+
+      <div class="col-12">
+        <h4>Datos del Matrimonio</h4>
+        <div class="grid">
+          <div class="col-12 md:col-4">
+            <label for="process_date" class="text-900 font-semibold"
+              >Fecha de Matrimonio</label
+            >
+            <p-calendar
+              formControlName="fechaMatrimonio"
+              [showIcon]="true"
+              dateFormat="dd/mm/yy"
+            ></p-calendar>
+          </div>
+
+          <div class="col-12 md:col-4">
+            <label for="process_date" class="text-900 font-semibold"
+              >Municipalidad</label
+            >
+            <p-dropdown
+              formControlName="municipalidad"
+              [options]="municipalidadCbo"
+              optionLabel="name"
+              optionValue="id"
+              placeholder="Seleccionar"
+              [showClear]="true"
+            ></p-dropdown>
+          </div>
+
+          <div class="col-12 md:col-4">
+            <label for="process_date" class="text-900 font-semibold"
+              >Distrito</label
+            >
+            <p-dropdown
+              formControlName="distrito"
+              [options]="distritoCbo"
+              optionLabel="name"
+              optionValue="id"
+              placeholder="Seleccionar"
+              [showClear]="true"
+            ></p-dropdown>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <h4>Documentos Adjuntos</h4>
+        <p-fileUpload
+          name="documentos"
+          url="/api/upload"
+          [auto]="true"
+          multiple
+          accept=".pdf,.jpg,.jpeg,.png"
+          maxFileSize="5000000"
+        ></p-fileUpload>
+      </div>
+    </div>
+  </form>
+
+  <p-footer class="footer-buttons">
+    <button
+      pButton
+      type="button"
+      label="Guardar"
+      icon="pi pi-check"
+      [disabled]="form.invalid"
+      (click)="save()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Cancelar"
+      icon="pi pi-times"
+      (click)="close()"
+      class="p-button-danger"
+    ></button>
+  </p-footer>
+</ims-popup>
