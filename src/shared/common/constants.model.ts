@@ -73,6 +73,17 @@ export module Constans {
       }
     }
 
+    export function toColor(key: number): string {
+      switch (key) {
+        case TYPE_ESTADO.Proceso:
+          return '#FF8C00';
+        case TYPE_ESTADO.Verificado:
+          return '#18AF5F';
+        default:
+          return 'Undefined';
+      }
+    }
+
     export function toList(): any[] {
       const list = [TYPE_ESTADO.Proceso, TYPE_ESTADO.Verificado];
       return list.map((key) => ({ id: key, name: toString(key) }));

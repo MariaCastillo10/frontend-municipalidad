@@ -1,0 +1,113 @@
+<ims-popup
+  [visible]="visible"
+  [title]="title"
+  [width]="'60vw'"
+  (onClose)="close()"
+>
+  <form [formGroup]="form">
+    <div *ngIf="data" class="p-fluid grid">
+      <div class="col-6">
+        <ims-input
+          formControlName="razonSocial"
+          label="Razón Social"
+          type="text"
+          [required]="true"
+        ></ims-input>
+      </div>
+      <div class="col-6">
+        <ims-input
+          formControlName="ruc"
+          label="RUC"
+          type="text"
+          [required]="true"
+        ></ims-input>
+      </div>
+      <div class="col-6">
+        <ims-input
+          formControlName="representanteLegal"
+          label="Representate"
+          type="text"
+          [required]="true"
+        ></ims-input>
+      </div>
+      <div class="col-6">
+        <ims-input
+          formControlName="dni"
+          label="DNI"
+          type="text"
+          [required]="true"
+        ></ims-input>
+      </div>
+      <div class="col-6">
+        <ims-input
+          formControlName="direccion"
+          label="Dirección"
+          type="text"
+          [required]="true"
+        ></ims-input>
+      </div>
+      <div class="col-6">
+        <ims-input
+          formControlName="giroNegocio"
+          label="Giro Negocio"
+          type="text"
+          [required]="true"
+        ></ims-input>
+      </div>
+      <div class="col-6">
+        <ims-input
+          formControlName="telefono"
+          label="Teléfono"
+          type="text"
+          [required]="true"
+        ></ims-input>
+      </div>
+      <div class="col-6">
+        <ims-input
+          formControlName="correo"
+          label="Correo"
+          type="text"
+          [required]="true"
+        ></ims-input>
+      </div>
+      <div class="col-12">
+        <ims-input
+          formControlName="observaciones"
+          label="Observaciones"
+          type="text"
+          [required]="true"
+        ></ims-input>
+      </div>
+    </div>
+    <div class="col-12">
+      <h4>Documentos Adjuntos</h4>
+      <p-fileUpload
+        name="documentos"
+        url="/api/upload"
+        [auto]="true"
+        multiple
+        accept=".pdf,.jpg,.jpeg,.png"
+        maxFileSize="5000000"
+      ></p-fileUpload>
+    </div>
+  </form>
+
+  <p-footer class="footer-buttons">
+    <button
+      pButton
+      type="button"
+      label="Guardar"
+      icon="pi pi-check"
+      [disabled]="form.invalid"
+      (click)="save()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Cancelar"
+      icon="pi pi-times"
+      (click)="close()"
+      class="p-button-danger"
+    ></button>
+  </p-footer>
+</ims-popup>

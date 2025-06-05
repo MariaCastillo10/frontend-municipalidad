@@ -37,13 +37,21 @@
       <span>{{ value.index }}</span>
     </td>
     <td>
-      <span class="column-style" [pTooltip]="value.nombreSolicitante">{{
-        value.nombreSolicitante
+      <span class="column-style" [pTooltip]="value.fechaSolicitud">{{
+        value.fechaSolicitud | date: "dd/MM/yyyy"
       }}</span>
     </td>
     <td>
-      <span class="column-style" [pTooltip]="value.nombreConyuge">{{
-        value.nombreConyuge
+      <span class="column-style" [pTooltip]="value.representanteLegal">{{
+        value.representanteLegal
+      }}</span>
+    </td>
+    <td>
+      <span class="column-style" [pTooltip]="value.dni">{{ value.dni }}</span>
+    </td>
+    <td>
+      <span class="column-style" [pTooltip]="value.direccion">{{
+        value.direccion
       }}</span>
     </td>
     <td>
@@ -91,6 +99,6 @@
   </ng-template>
 </ims-table>
 
-<app-edit-inventario></app-edit-inventario>
+<app-edit-licencia></app-edit-licencia>
 <p-confirmDialog></p-confirmDialog>
 <p-toast></p-toast>

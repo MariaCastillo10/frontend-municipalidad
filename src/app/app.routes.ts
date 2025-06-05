@@ -44,10 +44,10 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'pedido',
+        path: 'licencia',
         loadChildren: () =>
-          import('./modules/routes/procesos/pedido.routes').then(
-            (m) => m.pedidosRoutes,
+          import('./modules/routes/maestros/licencia.routes').then(
+            (m) => m.LicenciaRoutes,
           ),
       },
     ],

@@ -4,7 +4,7 @@ import { InventarioComponent } from '../../intranet/maestros/views/inventario/in
 export const InventarioRoutes: Routes = [
   {
     path: '',
-    data: { breadcrumb: 'Trámite' },
+    data: { breadcrumb: 'Divorcios' },
     component: InventarioComponent,
   },
 ];

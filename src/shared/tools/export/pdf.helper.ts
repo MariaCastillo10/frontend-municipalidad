@@ -54,16 +54,18 @@ export class PDFUtil {
 export class PDFUtilLandscape {
   static getInstance(): PdfMakeWrapper {
     const pdf = new PdfMakeWrapper();
-    (pdfMake as any).vfs = (pdfFonts as any).vfs;
+
+    (pdfMake as any).vfs = (pdfFonts as any).pdfMake.vfs;
+
     pdf.pageMargins([40, 40, 40, 60]);
     pdf.pageSize('A4');
     pdf.pageOrientation('landscape');
     pdf.defaultStyle({
-      fontSize: 16,
+      fontSize: 9,
     });
     pdf.styles({
       title: {
-        fontSize: 16,
+        fontSize: 9,
         bold: true,
         alignment: 'center',
         color: '#000000',

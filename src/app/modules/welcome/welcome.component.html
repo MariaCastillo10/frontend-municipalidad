@@ -5,3 +5,51 @@
     <span class="company-name">Municipalidad El Porvenir</span>
   </span>
 </div>
+
+<p-dialog
+  header="Pendientes por revisar"
+  [(visible)]="mostrarDialog"
+  [modal]="true"
+  [closable]="false"
+  [dismissableMask]="true"
+  [style]="{ width: '350px' }"
+>
+  <div
+    class="mb-3"
+    *ngIf="pendientes.divorciosPendientes > 0"
+    style="display: flex; align-items: center"
+  >
+    <strong>Divorcio:</strong> {{ pendientes.divorciosPendientes }} pendiente(s)
+    <button
+      pButton
+      type="button"
+      label="Ver"
+      class="p-button-link p-ml-2"
+      (click)="verListado('inventario')"
+    ></button>
+  </div>
+  <div
+    class="mb-3"
+    *ngIf="pendientes.licenciasPendientes > 0"
+    style="display: flex; align-items: center"
+  >
+    <strong>Licencia:</strong> {{ pendientes.licenciasPendientes }} pendiente(s)
+    <button
+      pButton
+      type="button"
+      label="Ver"
+      class="p-button-link p-ml-2"
+      (click)="verListado('licencia')"
+    ></button>
+  </div>
+  <div class="text-center mt-4">
+    <button
+      pButton
+      type="button"
+      label="Aceptar"
+      class="p-button-primary"
+      (click)="mostrarDialog = false"
+    ></button>
+  </div>
+</p-dialog>
+<p-toast></p-toast>

@@ -21,13 +21,13 @@ import { AlertService } from '../../../../../../../shared/services/alert.service
 import { PopupService } from '../../../../../../../shared/services/dialog.service';
 import { PermissionService } from '../../../../../../../shared/services/permission.service';
 import { Converter } from '../../../../../../../shared/tools/converter.helper';
-import { TramiteModel } from '../../../models/inventario.model';
-import { SolicitudService } from '../../../services/inventario.service';
+import { LicenciaModel } from '../../../models/licencia.model';
+import { LicenciaService } from '../../../services/licencia.service';
 import { rptModuleExcel } from '../../../utils/report-excel';
 import { rptModulePDF } from '../../../utils/report-pdf';
-import { EditInventarioComponent } from '../edit/edit-inventario.component';
+import { EditLicenciaComponent } from '../edit/edit-inventario.component';
 @Component({
-  selector: 'list-inventario',
+  selector: 'list-licencia',
   standalone: true,
   imports: [
     IMSTableComponent,
@@ -43,33 +43,35 @@ import { EditInventarioComponent } from '../edit/edit-inventario.component';
     MessageModule,
     MessagesModule,
     ToastModule,
-    EditInventarioComponent,
+    EditLicenciaComponent,
     TooltipModule,
     BadgeModule,
   ],
   templateUrl: './index-inventario.component.html',
   providers: [AlertService, ConfirmationService, MessageService],
 })
-export class InventarioComponent implements OnInit {
-  @ViewChild(EditInventarioComponent)
-  editInventarioComponent!: EditInventarioComponent;
+export class LicenciasComponent implements OnInit {
+  @ViewChild(EditLicenciaComponent)
+  editInventarioComponent!: EditLicenciaComponent;
 
   fb = inject(FormBuilder);
   http = inject(HttpClient);
-  listInventario: TramiteModel[] = [];
-  filteredInventario: TramiteModel[] = [];
+  listInventario: LicenciaModel[] = [];
+  filteredInventario: LicenciaModel[] = [];
   searchTerm: string = '';
 
   configTable: ITableConfig = {
     selection: false,
     columns: [
       { columnName: '#', property: 'index', sortable: true },
+      { columnName: 'Fecha', property: 'fechaSolicitud', sortable: true },
       {
-        columnName: 'Solicitante',
-        property: 'nombreSolicitante',
+        columnName: 'Representante',
+        property: 'representanteLegal',
         sortable: true,
       },
-      { columnName: 'Cónyuge', property: 'nombreConyuge', sortable: true },
+      { columnName: 'DNI', property: 'dni', sortable: true },
+      { columnName: 'Dirección', property: 'direccion', sortable: true },
       { columnName: 'Estado', property: 'estado', sortable: true },
       {
         columnName: 'Acciones',
@@ -89,7 +91,7 @@ export class InventarioComponent implements OnInit {
 
   constructor(
     private popup: PopupService,
-    private solicitudService: SolicitudService,
+    private licenciaService: LicenciaService,
     private alertService: AlertService,
     public permissionService: PermissionService,
   ) {
@@ -105,7 +107,7 @@ export class InventarioComponent implements OnInit {
   }
 
   list() {
-    this.solicitudService.getTramiteList().subscribe((response: any) => {
+    this.licenciaService.getLicenciaList().subscribe((response: any) => {
       this.listInventario = (response || []).map(
         (item: any, index: number) => ({
           ...item,
@@ -147,10 +149,10 @@ export class InventarioComponent implements OnInit {
 
   aprobar(rowData: any) {
     this.alertService.confirm(
-      `¿Está seguro de aprobar la solicitud de <strong>${rowData.nombreSolicitante}</strong>?`,
+      `¿Está seguro de aprobar la solicitud de <strong>${rowData.representanteLegal}</strong>?`,
       'Aprobar solicitud',
       () => {
-        this.solicitudService.updateEstadoTramite(rowData._id, 2).subscribe({
+        this.licenciaService.updateEstadoLicencia(rowData._id, 2).subscribe({
           next: () => {
             this.alertService.success('Registro aprobado exitosamente');
             this.list();
@@ -176,27 +178,7 @@ export class InventarioComponent implements OnInit {
     this.displayPopup = true;
   }
 
-  delete(rowData: any) {
-    this.alertService.confirm(
-      `¿Está seguro de eliminar el registro <strong>${rowData.nombre}</strong>?`,
-      'Eliminar registro',
-      () => {
-        this.solicitudService
-          .deleteInventarioItem(rowData.id)
-          .then(() => {
-            this.alertService.success('Registro eliminado correctamente');
-            this.searchTerm = '';
-            this.list();
-          })
-          .catch((error) => {
-            console.error('❌ Error al eliminar el registro:', error);
-          });
-      },
-      () => {
-        console.log('🛑 Eliminación cancelada');
-      },
-    );
-  }
+  delete(rowData: any) {}
 
   exportToExcel = async () => {
     try {
@@ -208,10 +190,10 @@ export class InventarioComponent implements OnInit {
 
   exportToPDF = async () => {
     try {
-      const pdf = await rptModulePDF.rptCalibersPdf.create(
+      const pdf = await rptModulePDF.rptLicenciaPdf.create(
         this.filteredInventario,
       );
-      pdf.download(`Rpt-Divorcios - ${new Date().toLocaleDateString()}.pdf`);
+      pdf.download(`Rpt-Licencias- ${new Date().toLocaleDateString()}.pdf`);
     } catch (error) {
       console.error('Error al exportar a PDF:', error);
     }

@@ -49,10 +49,16 @@ export class AppMenuComponent implements OnInit {
         icon: 'pi pi-th-large',
         items: [
           {
-            label: 'Tramites',
-            icon: 'pi pi-th-large',
+            label: 'Divorcios',
+            icon: 'pi pi-user-minus',
             routerLink: ['/inventario'],
           },
+          {
+            label: 'Licencias',
+            icon: 'pi pi-id-card',
+            routerLink: ['/licencia'],
+          },
+
           // {
           //   label: 'Embalajes',
           //   icon: 'pi pi-fw pi-box',
