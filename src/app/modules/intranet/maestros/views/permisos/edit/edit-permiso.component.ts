@@ -20,9 +20,9 @@ import { TramiteModel } from '../../../models/inventario.model';
 import { SolicitudService } from '../../../services/inventario.service';
 
 @Component({
-  selector: 'app-edit-inventario',
-  templateUrl: './edit-inventario.component.html',
-  styleUrls: ['./edit-inventario.component.scss'],
+  selector: 'app-edit-permiso',
+  templateUrl: './edit-permiso.component.html',
+  styleUrls: ['./edit-permiso.component.scss'],
   standalone: true,
   imports: [
     PopupComponent,
@@ -36,7 +36,7 @@ import { SolicitudService } from '../../../services/inventario.service';
     FileUploadModule,
   ],
 })
-export class EditInventarioComponent implements OnInit {
+export class EditPermisoComponent implements OnInit {
   @Output() inventarioSaved = new EventEmitter<void>();
   visible: boolean = false;
   title: string = '';
@@ -48,6 +48,7 @@ export class EditInventarioComponent implements OnInit {
   distritoCbo: any[] = [];
   form: FormGroup;
   public datosPagoExtraidos: any = null;
+  tipoEventoCbo: any[] = [];
 
   constructor(
     private popupService: PopupService,
@@ -56,18 +57,10 @@ export class EditInventarioComponent implements OnInit {
     private alertService: AlertService,
   ) {
     this.form = this.fb.group({
-      dniSolicitante: ['', Validators.required],
-      nombreSolicitante: ['', Validators.required],
-      correoSolicitante: ['', Validators.required],
-      celularSolicitante: [''],
-      direccionSolicitante: [''],
-      dniConyuge: [''],
-      nombreConyuge: [''],
-      correoConyuge: [''],
-      celularConyuge: [''],
-      fechaMatrimonio: [new Date()],
-      municipalidad: [''],
-      distrito: [''],
+      tipoEvento: ['', Validators.required],
+      fecha: [new Date()],
+      hora: [''],
+      aforo: [''],
     });
   }
 

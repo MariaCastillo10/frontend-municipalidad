@@ -95,6 +95,20 @@ export class SolicitudService {
     );
   }
 
+  addPago(tramite: any): Observable<any> {
+    return this.http.post<TramiteModel>(
+      `${this.apiUrl}/api${PATHS.INTRANET.Tramite}/extraer-recibo`,
+      tramite,
+    );
+  }
+
+  updateTramite(id: string, licencia: TramiteModel): Observable<any> {
+    return this.http.put(
+      `${this.apiUrl}/api${PATHS.INTRANET.Tramite}/${id}`,
+      licencia,
+    );
+  }
+
   /** Obtener lista de inventario */
   getInventarioList(): Observable<any[]> {
     return collectionData(this.inventarioCollection, { idField: 'id' });

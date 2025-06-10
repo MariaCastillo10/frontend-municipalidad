@@ -34,7 +34,11 @@ export class TramiteModel {
   municipalidad: number;
   distrito: number;
   estado: number;
-  // esAdmin: boolean;
+  codigoPago: string;
+  fechaPago: string;
+  montoPago: string;
+  nombrePago: string;
+  nroOperacionPago: string;
 
   constructor(params?: Partial<TramiteModel>) {
     this.id = params?.id || '';
@@ -52,6 +56,10 @@ export class TramiteModel {
     this.municipalidad = params?.municipalidad || 0;
     this.distrito = params?.distrito || 0;
     this.estado = params?.estado || 0;
-    // this.esAdmin = params?.esAdmin || false;
+    this.codigoPago = params?.codigoPago || '';
+    this.fechaPago = params?.fechaPago || '';
+    this.montoPago = params?.montoPago || '';
+    this.nombrePago = params?.nombrePago || '';
+    this.nroOperacionPago = params?.nroOperacionPago || '';
   }
 }

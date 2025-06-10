@@ -1,0 +1,14 @@
+.footer-buttons {
+  padding-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
+}
+
+.cancel-button {
+  margin-right: 10px;
+}

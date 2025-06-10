@@ -1,0 +1,79 @@
+<ims-popup
+  [visible]="visible"
+  [title]="title"
+  [width]="'60vw'"
+  (onClose)="close()"
+>
+  <form [formGroup]="form">
+    <div *ngIf="data" class="p-fluid grid">
+      <div class="col-12 md:col-6">
+        <label for="process_date" class="text-900 font-semibold"
+          >Tipo Evento</label
+        >
+        <p-dropdown
+          formControlName="tipoEvento"
+          [options]="tipoEventoCbo"
+          optionLabel="name"
+          optionValue="id"
+          placeholder="Seleccionar"
+          [showClear]="true"
+        ></p-dropdown>
+      </div>
+      <div class="col-12 md:col-6">
+        <label for="process_date" class="text-900 font-semibold">Fecha</label>
+        <p-calendar
+          formControlName="fecha"
+          [showIcon]="true"
+          dateFormat="dd/mm/yy"
+        ></p-calendar>
+      </div>
+      <div class="col-12 md:col-6">
+        <label for="process_date" class="text-900 font-semibold">Horario</label>
+        <p-calendar
+          formControlName="hora"
+          [timeOnly]="true"
+          hourFormat="24"
+          placeholder="Selecciona hora"
+        ></p-calendar>
+      </div>
+      <div class="col-6">
+        <ims-input
+          formControlName="aforo"
+          label="Aforo"
+          type="number"
+          [required]="true"
+        ></ims-input>
+      </div>
+    </div>
+    <div class="col-12">
+      <h4>Documentos Adjuntos</h4>
+      <p-fileUpload
+        name="documentos"
+        url="/api/upload"
+        [auto]="true"
+        multiple
+        accept=".pdf,.jpg,.jpeg,.png"
+        maxFileSize="5000000"
+      ></p-fileUpload>
+    </div>
+  </form>
+
+  <p-footer class="footer-buttons">
+    <button
+      pButton
+      type="button"
+      label="Guardar"
+      icon="pi pi-check"
+      [disabled]="form.invalid"
+      (click)="save()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Cancelar"
+      icon="pi pi-times"
+      (click)="close()"
+      class="p-button-danger"
+    ></button>
+  </p-footer>
+</ims-popup>

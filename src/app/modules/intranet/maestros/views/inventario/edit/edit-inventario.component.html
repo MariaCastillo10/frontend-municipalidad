@@ -113,15 +113,29 @@
       </div>
 
       <div class="col-12">
-        <h4>Documentos Adjuntos</h4>
-        <p-fileUpload
-          name="documentos"
-          url="/api/upload"
-          [auto]="true"
-          multiple
-          accept=".pdf,.jpg,.jpeg,.png"
-          maxFileSize="5000000"
-        ></p-fileUpload>
+        <h4>Recibo de Pago</h4>
+        <ng-container *ngIf="!datosPagoExtraidos; else datosExtraidos">
+          <p-fileUpload
+            name="documentos"
+            [customUpload]="true"
+            [auto]="true"
+            accept=".jpg,.jpeg,.png"
+            maxFileSize="5000000"
+            (uploadHandler)="onUpload($event)"
+          ></p-fileUpload>
+        </ng-container>
+        <ng-template #datosExtraidos>
+          <div class="p-3 border-round surface-100">
+            <div><strong>Código:</strong> {{ datosPagoExtraidos.codigo }}</div>
+            <div><strong>Fecha:</strong> {{ datosPagoExtraidos.fecha }}</div>
+            <div><strong>Monto:</strong> {{ datosPagoExtraidos.monto }}</div>
+            <div><strong>Nombre:</strong> {{ datosPagoExtraidos.nombre }}</div>
+            <div>
+              <strong>Nro. de operación:</strong>
+              {{ datosPagoExtraidos.nroOperacion }}
+            </div>
+          </div>
+        </ng-template>
       </div>
     </div>
   </form>
