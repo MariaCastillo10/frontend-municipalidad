@@ -198,4 +198,32 @@ export class LicenciasComponent implements OnInit {
       console.error('Error al exportar a PDF:', error);
     }
   };
+
+  descargarPDF(rowData: any) {
+    this.licenciaService.descargarPDF(rowData._id).subscribe({
+      next: (blob: Blob) => {
+        // Crear URL del blob
+        const url = window.URL.createObjectURL(blob);
+        
+        // Crear elemento anchor temporal
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `licencia_${rowData.representanteLegal}_${new Date().toISOString().split('T')[0]}.pdf`;
+        
+        // Agregar al DOM, hacer clic y remover
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Liberar URL
+        window.URL.revokeObjectURL(url);
+        
+        this.alertService.success('PDF descargado exitosamente');
+      },
+      error: (error) => {
+        console.error('Error al descargar el PDF:', error);
+        this.alertService.error('Error al descargar el PDF');
+      }
+    });
+  }
 }

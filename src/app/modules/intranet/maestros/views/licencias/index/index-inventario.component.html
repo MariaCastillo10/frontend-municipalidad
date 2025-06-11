@@ -94,6 +94,17 @@
           (click)="aprobar(value)"
           *ngIf="esAdmin"
         ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          placeholder="Descargar PDF"
+          icon="pi pi-file-pdf"
+          class="p-button-rounded p-button-warning"
+          (click)="descargarPDF(value)"
+          *ngIf="value.estadoValue === 2"
+          pTooltip="Descargar Resolución"
+        ></button>
       </div>
     </td>
   </ng-template>

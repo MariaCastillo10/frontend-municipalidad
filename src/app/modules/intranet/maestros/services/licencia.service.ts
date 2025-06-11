@@ -40,4 +40,10 @@ export class LicenciaService {
       licencia,
     );
   }
+
+  descargarPDF(id: string): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/api${PATHS.INTRANET.Licencia}/${id}/pdf`, {
+      responseType: 'blob'
+    });
+  }
 }
