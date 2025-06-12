@@ -1,0 +1,60 @@
+<div class="p-card p-4">
+  <!-- Sección de búsqueda -->
+  <h2 class="mb-3">Consulta de Deuda</h2>
+  <div class="flex flex-column sm:flex-row gap-3 align-items-end mb-4">
+    <ims-input
+      [(ngModel)]="dniIngresado"
+      placeholder="Ingrese su número de DNI"
+      class="w-full sm:w-30rem"
+    ></ims-input>
+    <button
+      pButton
+      icon="pi pi-search"
+      label="Buscar"
+      class="p-button-primary"
+      (click)="buscarPorDni()"
+    ></button>
+  </div>
+
+  <!-- Resultado de búsqueda -->
+  <div *ngIf="usuarioEncontrado">
+    <h3>
+      Deudas encontradas para: {{ usuarioEncontrado.nombres }} ({{
+        usuarioEncontrado.dni
+      }})
+    </h3>
+
+    <!-- Tabla de deudas -->
+    <ims-table
+      [configTable]="configTable"
+      [tableData]="deudas"
+      [showTemplate]="true"
+      class="mt-3"
+    >
+      <ng-template #tableTemplate let-value="value">
+        <td>{{ value.concepto }}</td>
+        <td>{{ value.monto | currency: "PEN" }}</td>
+        <td>{{ value.fechaEmision | date: "dd/MM/yyyy" }}</td>
+        <td>{{ value.fechaVencimiento | date: "dd/MM/yyyy" }}</td>
+        <td>{{ value.estado === 1 ? "Activo" : "Inactivo" }}</td>
+        <td>{{ value.observaciones }}</td>
+        <td>
+          <button
+            type="button"
+            class="p-button p-button-sm p-button-success"
+            (click)="enviarLinkPago(value)"
+          >
+            <i class="pi pi-dollar"></i> Pagar
+          </button>
+        </td>
+      </ng-template>
+    </ims-table>
+  </div>
+
+  <!-- Si no se encuentra el usuario o no tiene deudas -->
+  <p *ngIf="usuarioEncontrado && deudas.length === 0" class="mt-4 text-red-500">
+    No se encontraron deudas registradas para este usuario.
+  </p>
+</div>
+
+<p-confirmDialog></p-confirmDialog>

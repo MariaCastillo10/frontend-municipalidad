@@ -57,6 +57,13 @@ export const routes: Routes = [
             (m) => m.PermisosRoutes,
           ),
       },
+      {
+        path: 'rentas',
+        loadChildren: () =>
+          import('./modules/routes/maestros/rentas.routes').then(
+            (m) => m.RentasRoutes,
+          ),
+      },
     ],
   },
   {

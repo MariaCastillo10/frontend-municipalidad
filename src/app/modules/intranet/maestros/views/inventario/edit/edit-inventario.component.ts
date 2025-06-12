@@ -224,3 +224,31 @@ export class EditInventarioComponent implements OnInit {
     this.datosPagoExtraidos = null;
   }
 }
+
+// savePlanilla() {
+//   this.#alertService.confirm(
+//     '¿Está seguro de guardar la Plantilla?',
+//     'Guardar Plantilla',
+//     () => {
+//       this.#spinnerService.spinnerOn();
+//       if (this.baxlo) {
+//         this.planilla.sections.push(this.baxlo);
+//       }
+//       this.#planillaService
+//         .updateInspections(this.planilla.id as string, this.planilla)
+//         .subscribe({
+//           next: () => {
+//             this.#alertService.success('Plantilla guardada correctamente');
+//             this.cdr.detectChanges();
+//             this.#spinnerService.spinnerOff();
+//           },
+//           error: (err) => {
+//             console.log(err);
+//             this.#alertService.error('Ah Ocurrido un error.');
+//             this.#spinnerService.spinnerOff();
+//           },
+//         });
+//     },
+//     () => {},
+//   );
+// }

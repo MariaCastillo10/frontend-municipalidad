@@ -37,9 +37,7 @@
       <span>{{ value.index }}</span>
     </td>
     <td>
-      <span class="column-style" [pTooltip]="value.tipoEvento">{{
-        value.tipoEvento
-      }}</span>
+      <span class="column-style" [pTooltip]="value.tipo">{{ value.tipo }}</span>
     </td>
     <td>
       <span class="column-style" [pTooltip]="value.lugar">{{
@@ -47,18 +45,23 @@
       }}</span>
     </td>
     <td>
-      <span class="column-style" [pTooltip]="value.fecha">{{
-        value.fecha
-      }}</span>
+      <span class="column-style" [pTooltip]="value.fecha">
+        {{ value.fecha | date: "dd/MM/yyyy" }}</span
+      >
     </td>
     <td>
-      <span class="column-style" [pTooltip]="value.horario">{{
-        value.horario
-      }}</span>
+      <span class="column-style" [pTooltip]="value.horario">
+        {{ value.horario | date: "HH:mm" }}
+      </span>
     </td>
     <td>
       <span class="column-style" [pTooltip]="value.aforo">{{
         value.aforo
+      }}</span>
+    </td>
+    <td>
+      <span class="column-style" [pTooltip]="value.costo">{{
+        value.costo
       }}</span>
     </td>
     <td>

@@ -16,15 +16,15 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { Constans } from '../../../../../../../shared/common/constants.model';
-import { SearchComponent } from '../../../../../../../shared/components/search/search.component';
+import { InputComponent } from '../../../../../../../shared/components/input/input.component';
 import { AlertService } from '../../../../../../../shared/services/alert.service';
 import { PopupService } from '../../../../../../../shared/services/dialog.service';
 import { Converter } from '../../../../../../../shared/tools/converter.helper';
 import { TramiteModel } from '../../../models/inventario.model';
-import { PermisoService } from '../../../services/permiso.service';
+import { DeudaService } from '../../../services/deuda.service';
 import { rptModuleExcel } from '../../../utils/report-excel';
 import { rptModulePDF } from '../../../utils/report-pdf';
-import { EditPermisoComponent } from '../edit/edit-permiso.component';
+import { EditRentaComponent } from '../edit/edit-permiso.component';
 @Component({
   selector: 'list-permisos',
   standalone: true,
@@ -38,42 +38,49 @@ import { EditPermisoComponent } from '../edit/edit-permiso.component';
     ConfirmDialogModule,
     CalendarModule,
     SplitButtonModule,
-    SearchComponent,
     MessageModule,
     MessagesModule,
     ToastModule,
-    EditPermisoComponent,
     TooltipModule,
     BadgeModule,
+    InputComponent,
   ],
   templateUrl: './index-permiso.component.html',
   providers: [AlertService, ConfirmationService, MessageService],
 })
-export class PermisosComponent implements OnInit {
-  @ViewChild(EditPermisoComponent)
-  editInventarioComponent!: EditPermisoComponent;
+export class RentasComponent implements OnInit {
+  @ViewChild(EditRentaComponent)
+  editInventarioComponent!: EditRentaComponent;
 
   fb = inject(FormBuilder);
   http = inject(HttpClient);
   listInventario: TramiteModel[] = [];
   filteredInventario: TramiteModel[] = [];
   searchTerm: string = '';
+  usuario: any = null;
+  #alertService = inject(AlertService);
 
   configTable: ITableConfig = {
     selection: false,
     columns: [
-      { columnName: '#', property: 'index', sortable: true },
+      { columnName: 'Concepto', property: 'concepto', sortable: true },
+      { columnName: 'Monto', property: 'monto', sortable: true },
       {
-        columnName: 'Tipo',
-        property: 'tipo',
+        columnName: 'Fecha de Emisión',
+        property: 'fechaEmision',
         sortable: true,
       },
-      { columnName: 'Lugar', property: 'lugar', sortable: true },
-      { columnName: 'Fecha', property: 'fecha', sortable: true },
-      { columnName: 'Horario', property: 'horario', sortable: true },
-      { columnName: 'Aforo', property: 'aforo', sortable: true },
-      { columnName: 'Costo x Aforo', property: 'costo', sortable: true },
+      {
+        columnName: 'Fecha de Vencimiento',
+        property: 'fechaVencimiento',
+        sortable: true,
+      },
       { columnName: 'Estado', property: 'estado', sortable: true },
+      {
+        columnName: 'Observaciones',
+        property: 'observaciones',
+        sortable: false,
+      },
       {
         columnName: 'Acciones',
         property: 'acciones',
@@ -89,10 +96,15 @@ export class PermisosComponent implements OnInit {
   exportAll: boolean = true;
   esAdmin: boolean = false;
   public Constans = Constans;
+  dniIngresado: string = '';
+  usuarioEncontrado: any = null;
+  mostrarTablaDeuda: boolean = false;
+  deudas: any[] = [];
+  dni: string = '';
 
   constructor(
     private popup: PopupService,
-    private permisoService: PermisoService,
+    private deudaService: DeudaService,
     private alertService: AlertService,
   ) {
     this.items = Converter.createButtonItems(
@@ -107,20 +119,20 @@ export class PermisosComponent implements OnInit {
   }
 
   list() {
-    this.permisoService.getPermisoList().subscribe((response: any) => {
-      this.listInventario = (response || []).map(
-        (item: any, index: number) => ({
-          ...item,
-          id: item._id,
-          index: index + 1,
-          tipo: Constans.TIPO_PERMISO.toString(item.tipo),
-          estadoValue: item.estado,
-          estado: Constans.TYPE_ESTADO.toString(item.estado),
-          lugar: Constans.LUGAR_LIST.toString(item.lugar),
-        }),
-      );
-      this.filteredInventario = this.listInventario;
-    });
+    // this.deuda.getPermisoList().subscribe((response: any) => {
+    //   this.listInventario = (response || []).map(
+    //     (item: any, index: number) => ({
+    //       ...item,
+    //       id: item._id,
+    //       index: index + 1,
+    //       tipo: Constans.TIPO_PERMISO.toString(item.tipo),
+    //       estadoValue: item.estado,
+    //       estado: Constans.TYPE_ESTADO.toString(item.estado),
+    //       lugar: Constans.LUGAR_LIST.toString(item.lugar),
+    //     }),
+    //   );
+    //   this.filteredInventario = this.listInventario;
+    // });
   }
 
   filterInventario() {
@@ -141,6 +153,44 @@ export class PermisosComponent implements OnInit {
     this.displayPopup = true;
   }
 
+  buscarPorDni() {
+    if (!this.dniIngresado.trim()) {
+      this.alertService.warn('Debe ingresar un número de DNI válido');
+      return;
+    }
+
+    console.log('HOLA', this.dniIngresado);
+
+    this.deudaService.searchDeuda(this.dniIngresado).subscribe({
+      next: (usuario: any) => {
+        if (usuario) {
+          this.deudas = Array.isArray(usuario) ? usuario : [];
+          this.usuarioEncontrado = usuario.length ? usuario[0] : null;
+          this.mostrarTablaDeuda = this.deudas.length > 0;
+          this.alertService.success('Usuario encontrado');
+        } else {
+          this.alertService.warn('No se encontró usuario con ese DNI');
+          this.usuarioEncontrado = null;
+          this.mostrarTablaDeuda = false;
+        }
+      },
+      error: (error) => {
+        console.error('Error al buscar por DNI:', error);
+        this.alertService.error('Error al buscar usuario');
+      },
+    });
+  }
+
+  enviarLinkPago(value: any) {
+    this.#alertService.confirm(
+      '¿Desea enviar el detalle y método de pago a su correo electronico?',
+      'Guardar',
+      () => {
+        this.alertService.success('Se ha enviado correctamente');
+      },
+    );
+  }
+
   capturarNombre() {
     const user = localStorage.getItem('PI_int_user');
     if (user) {
@@ -150,25 +200,25 @@ export class PermisosComponent implements OnInit {
   }
 
   aprobar(rowData: any) {
-    this.alertService.confirm(
-      `¿Está seguro de aprobar la solicitud de <strong>${rowData.nombreSolicitante}</strong>?`,
-      'Aprobar solicitud',
-      () => {
-        this.permisoService.updateEstadoPermiso(rowData._id, 2).subscribe({
-          next: () => {
-            this.alertService.success('Registro aprobado exitosamente');
-            this.list();
-          },
-          error: (error) => {
-            console.error('❌ Error al aprobar:', error);
-            this.alertService.error('No se pudo aprobar la solicitud');
-          },
-        });
-      },
-      () => {
-        console.log('🛑 Aprobación cancelada');
-      },
-    );
+    // this.alertService.confirm(
+    //   `¿Está seguro de aprobar la solicitud de <strong>${rowData.nombreSolicitante}</strong>?`,
+    //   'Aprobar solicitud',
+    //   () => {
+    //     this.deudaService.updateEstadoPermiso(rowData._id, 2).subscribe({
+    //       next: () => {
+    //         this.alertService.success('Registro aprobado exitosamente');
+    //         this.list();
+    //       },
+    //       error: (error) => {
+    //         console.error('❌ Error al aprobar:', error);
+    //         this.alertService.error('No se pudo aprobar la solicitud');
+    //       },
+    //     });
+    //   },
+    //   () => {
+    //     console.log('🛑 Aprobación cancelada');
+    //   },
+    // );
   }
 
   new() {

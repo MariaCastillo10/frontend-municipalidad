@@ -36,7 +36,7 @@ import { PermisoService } from '../../../services/permiso.service';
     FileUploadModule,
   ],
 })
-export class EditPermisoComponent implements OnInit {
+export class EditRentaComponent implements OnInit {
   @Output() inventarioSaved = new EventEmitter<void>();
   visible: boolean = false;
   title: string = '';

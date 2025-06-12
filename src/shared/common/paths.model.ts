@@ -3,6 +3,8 @@ enum IntranetPaths {
   Tramite = '/solicitud',
   Licencia = '/licencia',
   Pendiente = '/pendientes',
+  Permiso = '/permiso',
+  Deuda = '/deuda',
 }
 
 export class PATHS {

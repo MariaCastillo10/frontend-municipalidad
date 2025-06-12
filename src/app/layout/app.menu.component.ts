@@ -63,6 +63,11 @@ export class AppMenuComponent implements OnInit {
             icon: 'pi pi-id-card',
             routerLink: ['/permiso'],
           },
+          {
+            label: 'Rentas',
+            icon: 'pi pi-id-card',
+            routerLink: ['/rentas'],
+          },
 
           // {
           //   label: 'Embalajes',

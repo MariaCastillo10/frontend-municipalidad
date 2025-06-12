@@ -58,6 +58,114 @@ export module Constans {
     }
   }
 
+  export module LUGAR_LIST {
+    export let PlazaArmas = 1;
+    export let ColiseoIncaRoca = 2;
+    export let EstadioMunicipal = 3;
+    export let Parque12Noviembre = 4;
+    export let ParqueMilagros = 5;
+    export let AuditorioMunicipal = 6;
+    export let FrontisMunicipal = 7;
+    export let ParqueIndustrial = 8;
+    export let MercadoCentral = 9;
+    export let CalleAvenida = 10;
+
+    export function toString(key: number): string {
+      switch (key) {
+        case LUGAR_LIST.PlazaArmas:
+          return 'Plaza de Armas de El Porvenir';
+        case LUGAR_LIST.ColiseoIncaRoca:
+          return 'Coliseo Municipal Inca Roca';
+        case LUGAR_LIST.EstadioMunicipal:
+          return 'Estadio Municipal de El Porvenir';
+        case LUGAR_LIST.Parque12Noviembre:
+          return 'Parque 12 de Noviembre';
+        case LUGAR_LIST.ParqueMilagros:
+          return 'Parque Señor de los Milagros';
+        case LUGAR_LIST.AuditorioMunicipal:
+          return 'Auditorio Municipal';
+        case LUGAR_LIST.FrontisMunicipal:
+          return 'Frontis de la Municipalidad';
+        case LUGAR_LIST.ParqueIndustrial:
+          return 'Parque Industrial El Porvenir';
+        case LUGAR_LIST.MercadoCentral:
+          return 'Mercado Central del Porvenir';
+        case LUGAR_LIST.CalleAvenida:
+          return 'Calles o Avenidas (para eventos públicos)';
+        default:
+          return 'No definido';
+      }
+    }
+
+    export function toList(): any[] {
+      const list = [
+        LUGAR_LIST.PlazaArmas,
+        LUGAR_LIST.ColiseoIncaRoca,
+        LUGAR_LIST.EstadioMunicipal,
+        LUGAR_LIST.Parque12Noviembre,
+        LUGAR_LIST.ParqueMilagros,
+        LUGAR_LIST.AuditorioMunicipal,
+        LUGAR_LIST.FrontisMunicipal,
+        LUGAR_LIST.ParqueIndustrial,
+        LUGAR_LIST.MercadoCentral,
+        LUGAR_LIST.CalleAvenida,
+      ];
+      return list.map((key) => ({ id: key, name: toString(key) }));
+    }
+  }
+
+  export module TIPO_PERMISO {
+    export let EventoPublico = 1;
+    export let FeriaComercial = 2;
+    export let ActividadReligiosa = 3;
+    export let ObraConstruccion = 4;
+    export let Manifestacion = 5;
+    export let ActividadDeportiva = 6;
+    export let EspectaculoArtistico = 7;
+    export let InstalacionTemporal = 8;
+    export let RodajeCinematografico = 9;
+
+    export function toString(key: number): string {
+      switch (key) {
+        case TIPO_PERMISO.EventoPublico:
+          return 'Evento Público';
+        case TIPO_PERMISO.FeriaComercial:
+          return 'Feria Comercial';
+        case TIPO_PERMISO.ActividadReligiosa:
+          return 'Actividad Religiosa';
+        case TIPO_PERMISO.ObraConstruccion:
+          return 'Obra de Construcción';
+        case TIPO_PERMISO.Manifestacion:
+          return 'Manifestación o Protesta';
+        case TIPO_PERMISO.ActividadDeportiva:
+          return 'Actividad Deportiva';
+        case TIPO_PERMISO.EspectaculoArtistico:
+          return 'Espectáculo Artístico';
+        case TIPO_PERMISO.InstalacionTemporal:
+          return 'Instalación Temporal';
+        case TIPO_PERMISO.RodajeCinematografico:
+          return 'Rodaje Cinematográfico';
+        default:
+          return 'No definido';
+      }
+    }
+
+    export function toList(): any[] {
+      const list = [
+        TIPO_PERMISO.EventoPublico,
+        TIPO_PERMISO.FeriaComercial,
+        TIPO_PERMISO.ActividadReligiosa,
+        TIPO_PERMISO.ObraConstruccion,
+        TIPO_PERMISO.Manifestacion,
+        TIPO_PERMISO.ActividadDeportiva,
+        TIPO_PERMISO.EspectaculoArtistico,
+        TIPO_PERMISO.InstalacionTemporal,
+        TIPO_PERMISO.RodajeCinematografico,
+      ];
+      return list.map((key) => ({ id: key, name: toString(key) }));
+    }
+  }
+
   export module TYPE_ESTADO {
     export let Proceso = 1;
     export let Verificado = 2;
