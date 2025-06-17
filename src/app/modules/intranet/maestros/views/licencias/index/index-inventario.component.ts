@@ -182,7 +182,7 @@ export class LicenciasComponent implements OnInit {
 
   exportToExcel = async () => {
     try {
-      await rptModuleExcel.rptCalibersExcel.create(this.filteredInventario);
+      await rptModuleExcel.rptLicenciaExcel.create(this.filteredInventario);
     } catch (error) {
       console.error('Error al exportar a Excel:', error);
     }

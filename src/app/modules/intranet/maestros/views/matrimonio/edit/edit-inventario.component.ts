@@ -50,10 +50,10 @@ export class EditInventarioComponent implements OnInit {
   public datosPagoExtraidos: any = null;
 
   constructor(
-    private popupService: PopupService,
+    public popupService: PopupService,
     private fb: FormBuilder,
     private tramiteService: SolicitudService,
-    private alertService: AlertService,
+    public alertService: AlertService,
   ) {
     this.form = this.fb.group({
       dniSolicitante: ['', Validators.required],
@@ -126,7 +126,6 @@ export class EditInventarioComponent implements OnInit {
           this.datosPagoExtraidos = null;
         }
 
-        console.log('this.data', this.data);
         this.nombre = this.data.nombreSolicitante;
         this.title = ` ${this.title} | ${this.nombre}`;
       }
@@ -172,7 +171,7 @@ export class EditInventarioComponent implements OnInit {
     if (match && match[1]) {
       return match[1].trim();
     }
-    // Alternativamente, busca el nombre antes de "6 "
+
     const altMatch = texto.match(/¡Yapeaste! a ([\w\s.]+)/i);
     return altMatch && altMatch[1] ? altMatch[1].trim() : '';
   }
@@ -225,30 +224,3 @@ export class EditInventarioComponent implements OnInit {
   }
 }
 
-// savePlanilla() {
-//   this.#alertService.confirm(
-//     '¿Está seguro de guardar la Plantilla?',
-//     'Guardar Plantilla',
-//     () => {
-//       this.#spinnerService.spinnerOn();
-//       if (this.baxlo) {
-//         this.planilla.sections.push(this.baxlo);
-//       }
-//       this.#planillaService
-//         .updateInspections(this.planilla.id as string, this.planilla)
-//         .subscribe({
-//           next: () => {
-//             this.#alertService.success('Plantilla guardada correctamente');
-//             this.cdr.detectChanges();
-//             this.#spinnerService.spinnerOff();
-//           },
-//           error: (err) => {
-//             console.log(err);
-//             this.#alertService.error('Ah Ocurrido un error.');
-//             this.#spinnerService.spinnerOff();
-//           },
-//         });
-//     },
-//     () => {},
-//   );
-// }

@@ -8,7 +8,6 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
-import { CardModule } from 'primeng/card';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
@@ -16,17 +15,16 @@ import { RippleModule } from 'primeng/ripple';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
+import { Constans } from '../../../../../../../shared/common/constants.model';
 import { SearchComponent } from '../../../../../../../shared/components/search/search.component';
 import { AlertService } from '../../../../../../../shared/services/alert.service';
 import { PopupService } from '../../../../../../../shared/services/dialog.service';
-import { PermissionService } from '../../../../../../../shared/services/permission.service';
 import { Converter } from '../../../../../../../shared/tools/converter.helper';
-import { InventarioModel } from '../../../models/inventario.model';
-import { InventarioService } from '../../../services/inventario.service';
+import { TramiteModel } from '../../../models/inventario.model';
+import { SolicitudService } from '../../../services/inventario.service';
 import { rptModuleExcel } from '../../../utils/report-excel';
 import { rptModulePDF } from '../../../utils/report-pdf';
-import { EditpedidoComponent } from '../edit/edit-pedido.component';
-
+import { EditInventarioComponent } from '../edit/edit-inventario.component';
 @Component({
   selector: 'list-inventario',
   standalone: true,
@@ -44,39 +42,39 @@ import { EditpedidoComponent } from '../edit/edit-pedido.component';
     MessageModule,
     MessagesModule,
     ToastModule,
+    EditInventarioComponent,
     TooltipModule,
     BadgeModule,
-    EditpedidoComponent,
-    CardModule,
   ],
-  templateUrl: './index-pedido.component.html',
-  styleUrls: ['./index-pedido.component.scss'],
+  templateUrl: './index-inventario.component.html',
   providers: [AlertService, ConfirmationService, MessageService],
 })
-export class pedidoComponent implements OnInit {
-  @ViewChild(EditpedidoComponent)
-  editInventarioComponent!: EditpedidoComponent;
+export class MatrimoniosComponent implements OnInit {
+  @ViewChild(EditInventarioComponent)
+  editInventarioComponent!: EditInventarioComponent;
 
   fb = inject(FormBuilder);
   http = inject(HttpClient);
-  listInventario: InventarioModel[] = [];
-  filteredInventario: any[] = [];
+  listInventario: TramiteModel[] = [];
+  filteredInventario: TramiteModel[] = [];
   searchTerm: string = '';
 
   configTable: ITableConfig = {
     selection: false,
     columns: [
       { columnName: '#', property: 'index', sortable: true },
-      { columnName: 'Código', property: 'codigo', sortable: true },
-      { columnName: 'Nombre', property: 'nombre', sortable: true },
-      { columnName: 'Costo', property: 'costo', sortable: true },
-      { columnName: 'Unidades', property: 'unidades', sortable: true },
-      { columnName: 'Porciones', property: 'porciones', sortable: true },
+      {
+        columnName: 'Solicitante',
+        property: 'nombreSolicitante',
+        sortable: true,
+      },
+      { columnName: 'Cónyuge', property: 'nombreConyuge', sortable: true },
+      { columnName: 'Estado', property: 'estado', sortable: true },
       {
         columnName: 'Acciones',
         property: 'acciones',
         sortable: false,
-        width: '140px',
+        width: '170px',
       },
     ],
   };
@@ -85,14 +83,13 @@ export class pedidoComponent implements OnInit {
   popupTitle: string = '';
   items: ButtonItems[] = [];
   exportAll: boolean = true;
-
-  pedidos: any[] = [];
+  esAdmin: boolean = false;
+  public Constans = Constans;
 
   constructor(
     private popup: PopupService,
-    private inventarioService: InventarioService,
+    private solicitudService: SolicitudService,
     private alertService: AlertService,
-    public permissionService: PermissionService,
   ) {
     this.items = Converter.createButtonItems(
       this.exportToExcel.bind(this),
@@ -101,56 +98,21 @@ export class pedidoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pedidos = [
-      {
-        numeroPedido: 1,
-        numeroMesa: 5,
-        hora: '12:30 PM',
-        estado: 'Para llevar',
-        color: 'green',
-        resumen: '2 hamburguesas, 1 gaseosa',
-      },
-      {
-        numeroPedido: 2,
-        numeroMesa: 3,
-        hora: '1:00 PM',
-        estado: 'Delivery',
-        color: 'yellow',
-        resumen: '1 pizza grande, 2 cervezas',
-      },
-      {
-        numeroPedido: 3,
-        numeroMesa: 7,
-        hora: '1:15 PM',
-        estado: 'Observado',
-        color: 'red',
-        resumen: '1 ensalada, 1 jugo natural',
-      },
-      {
-        numeroPedido: 4,
-        numeroMesa: 2,
-        hora: '1:45 PM',
-        estado: 'Para llevar',
-        color: 'green',
-        resumen: '3 tacos, 1 refresco',
-      },
-      {
-        numeroPedido: 5,
-        numeroMesa: 8,
-        hora: '2:00 PM',
-        estado: 'Delivery',
-        color: 'yellow',
-        resumen: '1 sushi combo, 1 té verde',
-      },
-    ];
+    this.capturarNombre();
+    this.list();
   }
 
   list() {
-    this.inventarioService.getInventarioList().subscribe((data) => {
-      this.listInventario = data.map((item: any, index: number) => ({
-        ...item,
-        index: index + 1,
-      }));
+    this.solicitudService.getTramiteList().subscribe((response: any) => {
+      this.listInventario = (response || []).map(
+        (item: any, index: number) => ({
+          ...item,
+          id: item._id,
+          index: index + 1,
+          estado: Constans.TYPE_ESTADO.toString(item.estado),
+          estadoValue: item.estado,
+        }),
+      );
       this.filteredInventario = this.listInventario;
     });
   }
@@ -173,6 +135,36 @@ export class pedidoComponent implements OnInit {
     this.displayPopup = true;
   }
 
+  capturarNombre() {
+    const user = localStorage.getItem('PI_int_user');
+    if (user) {
+      const userObj = JSON.parse(user);
+      this.esAdmin = userObj.esAdmin;
+    }
+  }
+
+  aprobar(rowData: any) {
+    this.alertService.confirm(
+      `¿Está seguro de aprobar la solicitud de <strong>${rowData.nombreSolicitante}</strong>?`,
+      'Aprobar solicitud',
+      () => {
+        this.solicitudService.updateEstadoTramite(rowData._id, 2).subscribe({
+          next: () => {
+            this.alertService.success('Registro aprobado exitosamente');
+            this.list();
+          },
+          error: (error) => {
+            console.error('❌ Error al aprobar:', error);
+            this.alertService.error('No se pudo aprobar la solicitud');
+          },
+        });
+      },
+      () => {
+        console.log('🛑 Aprobación cancelada');
+      },
+    );
+  }
+
   new() {
     this.editInventarioComponent.inventarioSaved.subscribe(() => {
       this.list();
@@ -183,30 +175,30 @@ export class pedidoComponent implements OnInit {
   }
 
   delete(rowData: any) {
-    this.alertService.confirm(
-      `¿Está seguro de eliminar el registro <strong>${rowData.nombre}</strong>?`,
-      'Eliminar registro',
-      () => {
-        this.inventarioService
-          .deleteInventarioItem(rowData.id)
-          .then(() => {
-            this.alertService.success('Registro eliminado correctamente');
-            this.searchTerm = '';
-            this.list();
-          })
-          .catch((error) => {
-            console.error('❌ Error al eliminar el registro:', error);
-          });
-      },
-      () => {
-        console.log('🛑 Eliminación cancelada');
-      },
-    );
+    // this.alertService.confirm(
+    //   `¿Está seguro de eliminar el registro <strong>${rowData.nombre}</strong>?`,
+    //   'Eliminar registro',
+    //   () => {
+    //     this.solicitudService
+    //       .deleteInventarioItem(rowData.id)
+    //       .then(() => {
+    //         this.alertService.success('Registro eliminado correctamente');
+    //         this.searchTerm = '';
+    //         this.list();
+    //       })
+    //       .catch((error) => {
+    //         console.error('❌ Error al eliminar el registro:', error);
+    //       });
+    //   },
+    //   () => {
+    //     console.log('🛑 Eliminación cancelada');
+    //   },
+    // );
   }
 
   exportToExcel = async () => {
     try {
-      await rptModuleExcel.rptCalibersExcel.create(this.filteredInventario);
+      await rptModuleExcel.rptMatrimonioExcel.create(this.filteredInventario);
     } catch (error) {
       console.error('Error al exportar a Excel:', error);
     }
@@ -214,10 +206,10 @@ export class pedidoComponent implements OnInit {
 
   exportToPDF = async () => {
     try {
-      const pdf = await rptModulePDF.rptCalibersPdf.create(
+      const pdf = await rptModulePDF.rptMatrominioPdf.create(
         this.filteredInventario,
       );
-      pdf.download(`Rpt-Inventario - ${new Date().toLocaleDateString()}.pdf`);
+      pdf.download(`Rpt-Divorcios - ${new Date().toLocaleDateString()}.pdf`);
     } catch (error) {
       console.error('Error al exportar a PDF:', error);
     }

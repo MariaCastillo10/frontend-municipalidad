@@ -14,7 +14,7 @@ export type filterProductsRPT = {
 };
 
 export module rptModulePDF {
-  export class rptCalibersPdf extends PDFUtil {
+  export class rptMatrominioPdf extends PDFUtil {
     static async create(data: any[]): Promise<ICreatePDF> {
       const pdf = this.getInstance();
 
@@ -40,7 +40,7 @@ export module rptModulePDF {
 
         new Table([
           [
-            new Txt('REGISTROS DE INVENTARIO')
+            new Txt('REGISTROS DE MATRIMONIOS')
               .style('cellbold')
               .alignment('center')
               .fontSize(12)
@@ -60,25 +60,21 @@ export module rptModulePDF {
 
       for (const item of data) {
         content.push([
-          new Txt(item.codigo).style('cell').alignment('center').end,
-          new Txt(item.nombre).style('cell').alignment('center').end,
-          new Txt(item.costo).style('cell').alignment('center').end,
-          new Txt(String(item.unidades)).style('cell').alignment('center').end,
-          new Txt(String(item.porciones)).style('cell').alignment('center').end,
+          new Txt(item.nombreSolicitante).style('cell').alignment('center').end,
+          new Txt(item.nombreConyuge).style('cell').alignment('center').end,
+          new Txt(item.estado).style('cell').alignment('center').end
         ]);
       }
 
       const table = new Table([
         [
-          new Txt('Código').style('cellbold').color('#FFF').end,
-          new Txt('Nombre').style('cellbold').color('#FFF').end,
-          new Txt('Costo').style('cellbold').color('#FFF').end,
-          new Txt('Unidades').style('cellbold').color('#FFF').end,
-          new Txt('Porciones').style('cellbold').color('#FFF').end,
+          new Txt('Solicitante').style('cellbold').color('#FFF').end,
+          new Txt('Cónyuge').style('cellbold').color('#FFF').end,
+          new Txt('Estado').style('cellbold').color('#FFF').end
         ],
         ...content,
       ])
-        .widths(['*', '*', '*', '*', '*'])
+        .widths(['*', '*', '*'])
         .layout({
           fillColor: this.fillColorHeader,
           hLineColor: () => '#eee',
@@ -91,7 +87,6 @@ export module rptModulePDF {
       return pdf.create();
     }
   }
-
   export class rptLicenciaPdf extends PDFUtilLandscape {
     static async create(data: any[]): Promise<ICreatePDF> {
       const pdf = this.getInstance();

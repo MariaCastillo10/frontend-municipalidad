@@ -12,7 +12,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  title = 'IMS-Ecommerce';
+  title = 'Hello, IMS-Ecommerce';
 
   constructor(
     private router: Router,

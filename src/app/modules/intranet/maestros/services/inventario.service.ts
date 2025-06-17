@@ -1,14 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  Firestore,
-  addDoc,
-  collection,
-  collectionData,
-  deleteDoc,
-  doc,
-  updateDoc,
-} from '@angular/fire/firestore';
 import { IResponseList } from '@shared/interfaces';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
@@ -62,17 +53,11 @@ import { TramiteModel } from '../models/inventario.model';
 //   }
 // }
 export class SolicitudService {
-  private inventarioCollection;
   private apiUrl = environment.apiUrl;
 
   constructor(
-    private firestore: Firestore,
     private http: HttpClient,
   ) {
-    this.inventarioCollection = collection(
-      this.firestore,
-      PATHS.INTRANET.Tramite,
-    );
   }
 
   getTramiteList(): Observable<IResponseList<TramiteModel[]>> {
@@ -107,35 +92,5 @@ export class SolicitudService {
       `${this.apiUrl}/api${PATHS.INTRANET.Tramite}/${id}`,
       licencia,
     );
-  }
-
-  /** Obtener lista de inventario */
-  getInventarioList(): Observable<any[]> {
-    return collectionData(this.inventarioCollection, { idField: 'id' });
-  }
-
-  /** Agregar un nuevo producto al inventario */
-  addInventarioItem(item: any): Promise<void> {
-    return addDoc(this.inventarioCollection, item)
-      .then(() => console.log('✅ Producto agregado con éxito'))
-      .catch((error) => console.error('❌ Error al agregar producto:', error));
-  }
-
-  /** Actualizar un producto existente en el inventario */
-  updateInventarioItem(id: string, data: any): Promise<void> {
-    const itemRef = doc(this.firestore, `${PATHS.INTRANET.Tramite}/${id}`);
-    return updateDoc(itemRef, data)
-      .then(() => console.log(`✅ Producto ${id} actualizado con éxito`))
-      .catch((error) =>
-        console.error('❌ Error al actualizar producto:', error),
-      );
-  }
-
-  /** Eliminar un producto del inventario */
-  deleteInventarioItem(id: string): Promise<void> {
-    const itemRef = doc(this.firestore, `${PATHS.INTRANET.Tramite}/${id}`);
-    return deleteDoc(itemRef)
-      .then(() => console.log(`✅ Producto ${id} eliminado con éxito`))
-      .catch((error) => console.error('❌ Error al eliminar producto:', error));
   }
 }
