@@ -181,12 +181,19 @@ export class RentasComponent implements OnInit {
     });
   }
 
-  enviarLinkPago(value: any) {
+  enviarLinkPago(deuda: any) {
     this.#alertService.confirm(
-      '¿Desea enviar el detalle y método de pago a su correo electronico?',
-      'Guardar',
+      '¿Desea enviar el detalle y método de pago a su correo electrónico?',
+      'Enviar',
       () => {
-        this.alertService.success('Se ha enviado correctamente');
+        this.deudaService.enviarCorreoDeuda(deuda._id).subscribe({
+          next: () => {
+            this.alertService.success('Se ha enviado correctamente el correo');
+          },
+          error: () => {
+            this.alertService.error('Ocurrió un error al enviar el correo');
+          },
+        });
       },
     );
   }

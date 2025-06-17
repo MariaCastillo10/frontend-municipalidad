@@ -17,4 +17,10 @@ export class DeudaService {
       `${this.apiUrl}/api${PATHS.INTRANET.Deuda}/${dni}`,
     );
   }
+
+  enviarCorreoDeuda(id: string): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/api${PATHS.INTRANET.Deuda}/enviar-correo/${id}`,
+    );
+  }
 }

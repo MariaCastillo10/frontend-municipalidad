@@ -1,6 +1,7 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://backend-municipalidad-467852f9b262.herokuapp.com',
+  apiUrl: 'http://localhost:5001',
+
   // apiUrl: 'https://api.primequalitycontrol.com',
   apiFront: 'http://localhost:4200',
   firebaseConfig: {
