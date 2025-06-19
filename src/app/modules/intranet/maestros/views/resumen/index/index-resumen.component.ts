@@ -69,7 +69,8 @@ export class ResumenComponent implements OnInit {
       { columnName: 'Correo', property: 'correo', sortable: true },
       { columnName: 'Modulo', property: 'modulo', sortable: true },
       { columnName: 'Área', property: 'areaDestino', sortable: true },
-      { columnName: 'Prioridad', property: 'prioridad', sortable: true }
+      { columnName: 'Prioridad', property: 'prioridad', sortable: true },
+      { columnName: 'Msjs enviados', property: 'totalEnviados', sortable: true }
     ],
   };
 
