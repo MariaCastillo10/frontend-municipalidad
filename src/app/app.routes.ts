@@ -64,6 +64,13 @@ export const routes: Routes = [
             (m) => m.RentasRoutes,
           ),
       },
+      {
+        path: 'resumen',
+        loadChildren: () =>
+          import('./modules/routes/maestros/resumen.routes').then(
+            (m) => m.ResumenRoutes,
+          ),
+      },
     ],
   },
   {

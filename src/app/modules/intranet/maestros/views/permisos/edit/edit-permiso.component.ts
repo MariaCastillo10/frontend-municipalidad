@@ -49,6 +49,7 @@ export class EditPermisoComponent implements OnInit {
   tipoEventoCbo: any[] = [];
   lugarCbo: any[] = [];
   correoUsuario: string = '';
+  nombreSolicitante: string = '';
 
   constructor(
     private popupService: PopupService,
@@ -103,6 +104,7 @@ export class EditPermisoComponent implements OnInit {
     if (user) {
       const userObj = JSON.parse(user);
       this.correoUsuario = userObj.email;
+      this.nombreSolicitante = userObj.name;
     }
   }
 
@@ -138,6 +140,7 @@ export class EditPermisoComponent implements OnInit {
         aforo: +formValue.aforo,
         horario: fechaYHora.toISOString(),
         correo: this.correoUsuario,
+        nombreSolicitante: this.nombreSolicitante
       };
 
       if (!permiso.id) {

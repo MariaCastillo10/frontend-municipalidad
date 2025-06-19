@@ -8,6 +8,7 @@ export class PermisoModel {
   aforo: number;
   estado: number;
   correo: string;
+  nombreSolicitante: string;
 
   constructor(params?: Partial<PermisoModel>) {
     this.id = params?.id || '';
@@ -20,5 +21,6 @@ export class PermisoModel {
     this.aforo = params?.aforo || 0;
     this.estado = params?.estado || 0;
     this.correo = params?.correo || '';
+    this.nombreSolicitante = params?.nombreSolicitante || '';
   }
 }

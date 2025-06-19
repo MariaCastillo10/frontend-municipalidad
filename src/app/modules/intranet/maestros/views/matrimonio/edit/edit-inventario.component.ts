@@ -36,7 +36,7 @@ import { SolicitudService } from '../../../services/inventario.service';
     FileUploadModule,
   ],
 })
-export class EditInventarioComponent implements OnInit {
+export class EditMatrimonioComponent implements OnInit {
   @Output() inventarioSaved = new EventEmitter<void>();
   visible: boolean = false;
   title: string = '';

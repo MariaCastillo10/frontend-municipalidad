@@ -21,12 +21,13 @@ import { AlertService } from '../../../../../../../shared/services/alert.service
 import { PopupService } from '../../../../../../../shared/services/dialog.service';
 import { Converter } from '../../../../../../../shared/tools/converter.helper';
 import { TramiteModel } from '../../../models/inventario.model';
-import { PermisoService } from '../../../services/permiso.service';
+import { SolicitudService } from '../../../services/inventario.service';
 import { rptModuleExcel } from '../../../utils/report-excel';
 import { rptModulePDF } from '../../../utils/report-pdf';
-import { EditPermisoComponent } from '../edit/edit-permiso.component';
+import { ResumenService } from '../../../services/resumen.service';
+
 @Component({
-  selector: 'list-permisos',
+  selector: 'list-resumen',
   standalone: true,
   imports: [
     IMSTableComponent,
@@ -42,16 +43,13 @@ import { EditPermisoComponent } from '../edit/edit-permiso.component';
     MessageModule,
     MessagesModule,
     ToastModule,
-    EditPermisoComponent,
     TooltipModule,
     BadgeModule,
   ],
-  templateUrl: './index-permiso.component.html',
+  templateUrl: './index-resumencomponent.html',
   providers: [AlertService, ConfirmationService, MessageService],
 })
-export class PermisosComponent implements OnInit {
-  @ViewChild(EditPermisoComponent)
-  editInventarioComponent!: EditPermisoComponent;
+export class ResumenComponent implements OnInit {
 
   fb = inject(FormBuilder);
   http = inject(HttpClient);
@@ -63,28 +61,15 @@ export class PermisosComponent implements OnInit {
     selection: false,
     columns: [
       { columnName: '#', property: 'index', sortable: true },
-            {
-        columnName: 'Nombres',
-        property: 'nombreSolicitante',
+      {
+        columnName: 'Persona',
+        property: 'nombres',
         sortable: true,
       },
-      {
-        columnName: 'Tipo',
-        property: 'tipo',
-        sortable: true,
-      },
-      { columnName: 'Lugar', property: 'lugar', sortable: true },
-      { columnName: 'Fecha', property: 'fecha', sortable: true },
-      { columnName: 'Horario', property: 'horario', sortable: true },
-      { columnName: 'Aforo', property: 'aforo', sortable: true },
-      { columnName: 'Costo x Aforo', property: 'costo', sortable: true },
-      { columnName: 'Estado', property: 'estado', sortable: true },
-      {
-        columnName: 'Acciones',
-        property: 'acciones',
-        sortable: false,
-        width: '170px',
-      },
+      { columnName: 'Correo', property: 'correo', sortable: true },
+      { columnName: 'Modulo', property: 'modulo', sortable: true },
+      { columnName: 'Área', property: 'areaDestino', sortable: true },
+      { columnName: 'Prioridad', property: 'prioridad', sortable: true }
     ],
   };
 
@@ -97,7 +82,7 @@ export class PermisosComponent implements OnInit {
 
   constructor(
     private popup: PopupService,
-    private permisoService: PermisoService,
+    private resumenService: ResumenService,
     private alertService: AlertService,
   ) {
     this.items = Converter.createButtonItems(
@@ -112,19 +97,18 @@ export class PermisosComponent implements OnInit {
   }
 
   list() {
-    this.permisoService.getPermisoList().subscribe((response: any) => {
+    this.resumenService.getLicenciaList().subscribe((response: any) => {
       this.listInventario = (response || []).map(
         (item: any, index: number) => ({
           ...item,
           id: item._id,
           index: index + 1,
-          tipo: Constans.TIPO_PERMISO.toString(item.tipo),
-          estadoValue: item.estado,
           estado: Constans.TYPE_ESTADO.toString(item.estado),
-          lugar: Constans.LUGAR_LIST.toString(item.lugar),
+          estadoValue: item.estado,
         }),
       );
       this.filteredInventario = this.listInventario;
+      console.log('this.filteredInventario ', this.filteredInventario )
     });
   }
 
@@ -137,15 +121,6 @@ export class PermisosComponent implements OnInit {
     );
   }
 
-  edit(rowData: any) {
-    this.editInventarioComponent.inventarioSaved.subscribe(() => {
-      this.list();
-      this.searchTerm = '';
-    });
-    this.popup.showPopup('Editar registro', rowData);
-    this.displayPopup = true;
-  }
-
   capturarNombre() {
     const user = localStorage.getItem('PI_int_user');
     if (user) {
@@ -155,54 +130,19 @@ export class PermisosComponent implements OnInit {
   }
 
   aprobar(rowData: any) {
-    this.alertService.confirm(
-      `¿Está seguro de aprobar la solicitud de <strong>${rowData.nombreSolicitante}</strong>?`,
-      'Aprobar solicitud',
-      () => {
-        this.permisoService.updateEstadoPermiso(rowData._id, 2).subscribe({
-          next: () => {
-            this.alertService.success('Registro aprobado exitosamente');
-            this.list();
-          },
-          error: (error) => {
-            console.error('❌ Error al aprobar:', error);
-            this.alertService.error('No se pudo aprobar la solicitud');
-          },
-        });
-      },
-      () => {
-        console.log('🛑 Aprobación cancelada');
-      },
-    );
   }
 
   new() {
-    this.editInventarioComponent.inventarioSaved.subscribe(() => {
-      this.list();
-      this.searchTerm = '';
-    });
-    this.popup.showPopup('Nuevo registro', {});
-    this.displayPopup = true;
   }
 
-  delete(rowData: any) {}
+  delete(rowData: any) {
+  }
 
   exportToExcel = async () => {
-    try {
-      await rptModuleExcel.rptMatrimonioExcel.create(this.filteredInventario);
-    } catch (error) {
-      console.error('Error al exportar a Excel:', error);
-    }
+
   };
 
   exportToPDF = async () => {
-    try {
-      const pdf = await rptModulePDF.rptMatrominioPdf.create(
-        this.filteredInventario,
-      );
-      pdf.download(`Rpt-Divorcios - ${new Date().toLocaleDateString()}.pdf`);
-    } catch (error) {
-      console.error('Error al exportar a PDF:', error);
-    }
+
   };
 }

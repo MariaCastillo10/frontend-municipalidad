@@ -24,7 +24,7 @@ import { TramiteModel } from '../../../models/inventario.model';
 import { SolicitudService } from '../../../services/inventario.service';
 import { rptModuleExcel } from '../../../utils/report-excel';
 import { rptModulePDF } from '../../../utils/report-pdf';
-import { EditInventarioComponent } from '../edit/edit-inventario.component';
+import { EditMatrimonioComponent } from '../edit/edit-inventario.component';
 @Component({
   selector: 'list-inventario',
   standalone: true,
@@ -42,7 +42,7 @@ import { EditInventarioComponent } from '../edit/edit-inventario.component';
     MessageModule,
     MessagesModule,
     ToastModule,
-    EditInventarioComponent,
+    EditMatrimonioComponent,
     TooltipModule,
     BadgeModule,
   ],
@@ -50,8 +50,8 @@ import { EditInventarioComponent } from '../edit/edit-inventario.component';
   providers: [AlertService, ConfirmationService, MessageService],
 })
 export class MatrimoniosComponent implements OnInit {
-  @ViewChild(EditInventarioComponent)
-  editInventarioComponent!: EditInventarioComponent;
+  @ViewChild(EditMatrimonioComponent)
+  editInventarioComponent!: EditMatrimonioComponent;
 
   fb = inject(FormBuilder);
   http = inject(HttpClient);

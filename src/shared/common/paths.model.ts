@@ -5,6 +5,7 @@ enum IntranetPaths {
   Pendiente = '/pendientes',
   Permiso = '/permiso',
   Deuda = '/deuda',
+  Resumen = '/resumen'
 }
 
 export class PATHS {

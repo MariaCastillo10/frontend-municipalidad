@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EditInventarioComponent } from './edit-inventario.component';
+import { EditMatrimonioComponent } from './edit-inventario.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PopupService } from '../../../../../../../shared/services/dialog.service';
 import { SolicitudService } from '../../../services/inventario.service';
@@ -9,8 +9,8 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 describe('EditMatrimonioComponent', () => {
-    let component: EditInventarioComponent;
-    let fixture: ComponentFixture<EditInventarioComponent>;
+    let component: EditMatrimonioComponent;
+    let fixture: ComponentFixture<EditMatrimonioComponent>;
 
     const displayPopup$ = new Subject<boolean>();
     const popupTitle$ = new Subject<string>();
@@ -20,7 +20,7 @@ describe('EditMatrimonioComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [
-                EditInventarioComponent,
+                EditMatrimonioComponent,
                 ReactiveFormsModule,
                 HttpClientModule
             ],
@@ -62,7 +62,7 @@ describe('EditMatrimonioComponent', () => {
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(EditInventarioComponent);
+        fixture = TestBed.createComponent(EditMatrimonioComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
@@ -72,7 +72,7 @@ describe('EditMatrimonioComponent', () => {
     });
 
     it('debería hacer patchValue al recibir datos del popup', () => {
-        const fixture = TestBed.createComponent(EditInventarioComponent);
+        const fixture = TestBed.createComponent(EditMatrimonioComponent);
         const component = fixture.componentInstance;
         const mockData = {
             dniSolicitante: '12345678',
@@ -86,24 +86,24 @@ describe('EditMatrimonioComponent', () => {
         expect(component.form.value.dniSolicitante).toBe('12345678');
     });
 
-        it('debería extraer nombre desde texto', () => {
-        const fixture = TestBed.createComponent(EditInventarioComponent);
+    it('debería extraer nombre desde texto', () => {
+        const fixture = TestBed.createComponent(EditMatrimonioComponent);
         const component = fixture.componentInstance;
 
         const nombre = component.extraerNombre('¡Yapeaste! a Maria Lopez');
         expect(nombre).toBe('Maria Lopez');
-        });
+    });
 
-        it('debería extraer nro. de operación desde texto', () => {
-        const fixture = TestBed.createComponent(EditInventarioComponent);
+    it('debería extraer nro. de operación desde texto', () => {
+        const fixture = TestBed.createComponent(EditMatrimonioComponent);
         const component = fixture.componentInstance;
 
         const nro = component.extraerNroOperacion('¡Yapeaste! a Maria Lopez Nro. de operación 123456');
         expect(nro).toBe('123456');
-        });
+    });
 
     it('debería extraer datos de pago correctamente al subir imagen', () => {
-        const fixture = TestBed.createComponent(EditInventarioComponent);
+        const fixture = TestBed.createComponent(EditMatrimonioComponent);
         const component = fixture.componentInstance;
         const file = new File([''], 'recibo.jpg', { type: 'image/jpeg' });
         const eventMock = {

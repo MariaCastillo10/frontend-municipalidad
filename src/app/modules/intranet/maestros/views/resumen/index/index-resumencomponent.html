@@ -1,0 +1,74 @@
+<ims-table
+  #imsTable
+  [configTable]="configTable"
+  [tableData]="filteredInventario"
+  [showTemplate]="true"
+  class="pt-3"
+>
+  <div
+    caption-content
+    class="flex flex-wrap gap-4 align-items-center justify-content-between"
+  >
+    <ims-search
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="filterInventario()"
+    ></ims-search>
+    <div
+      class="flex gap-2 w-full sm:w-auto justify-content-end flex-order-2 sm:flex-order-1"
+    >
+      <ng-container> </ng-container>
+      <p-splitButton
+        label="Exportar"
+        [model]="items"
+        styleClass="p-button-primary"
+      ></p-splitButton>
+      <button
+        pButton
+        class="p-button-outlined"
+        icon="pi pi-plus"
+        (click)="new()"
+        label="Nuevo"
+      ></button>
+    </div>
+  </div>
+
+  <ng-template #tableTemplate let-value="value">
+    <td>
+      <span>{{ value.index }}</span>
+    </td>
+    <td>
+      <span class="column-style" [pTooltip]="value.nombres">{{
+        value.nombres ?? 'Roy Santos Vega'
+        }}</span>
+    </td>
+    <td>
+      <span class="column-style" [pTooltip]="value.correo">{{
+        value.correo
+        }}</span>
+    </td>
+    <td>
+      <span class="column-style" [pTooltip]="value.modulo">{{
+        value.modulo
+        }}</span>
+    </td>
+        <td>
+      <span class="column-style" [pTooltip]="value.areaDestino">{{
+        value.areaDestino
+        }}</span>
+    </td>
+    <td>
+      <span class="column-style" [pTooltip]="value.prioridad">{{
+        value.prioridad
+        }}</span>
+    </td>
+    <!-- <td>
+      <p-badge [value]="value.estado" [style]="{
+          backgroundColor: Constans.TYPE_ESTADO.toColor(value.estadoValue),
+          color: '#fff',
+        }" [pTooltip]="value.estado"></p-badge>
+    </td> -->
+  </ng-template>
+</ims-table>
+
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>

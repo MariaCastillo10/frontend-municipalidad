@@ -8,7 +8,7 @@ import { PopupService } from '../../../../../../../shared/services/dialog.servic
 import { SolicitudService } from '../../../services/inventario.service';
 import { PermissionService } from '../../../../../../../shared/services/permission.service';
 import { AlertService } from '../../../../../../../shared/services/alert.service';
-import { EditInventarioComponent } from '../edit/edit-inventario.component';
+import { EditMatrimonioComponent } from '../edit/edit-inventario.component';
 import { fakeAsync, tick } from '@angular/core/testing';
 
 @Component({
@@ -36,7 +36,7 @@ export class MockAlertService {
     error = jasmine.createSpy('error');
 }
 
-describe('MatrimonioComponent', () => {
+describe('MatrimonioComponent XXXXX', () => {
     let component: MatrimoniosComponent;
     let fixture: ComponentFixture<MatrimoniosComponent>;
 
@@ -54,7 +54,7 @@ describe('MatrimonioComponent', () => {
         })
             .overrideComponent(MatrimoniosComponent, {
                 remove: {
-                    imports: [EditInventarioComponent]
+                    imports: [EditMatrimonioComponent]
                 },
                 add: {
                     imports: [MockEditInventarioComponent]
@@ -71,7 +71,7 @@ describe('MatrimonioComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('Debe filtrar correctamente con filterInventario', () => {
+    it('Debe filtrar correctamente con filterMatrimonio', () => {
         component.listInventario = [
             { nombreSolicitante: 'Carlos', nombreConyuge: 'Ana', estado: 'Aprobado', index: 1, id: '1' },
             { nombreSolicitante: 'Pedro', nombreConyuge: 'Maria', estado: 'Pendiente', index: 2, id: '2' }
