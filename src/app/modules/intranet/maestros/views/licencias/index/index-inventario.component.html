@@ -74,6 +74,7 @@
           icon="pi pi-pencil"
           class="p-button-rounded p-button-info"
           (click)="edit(value)"
+          [disabled]="value.estadoValue === 2"
         ></button>
         <button
           pButton

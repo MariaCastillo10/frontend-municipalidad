@@ -1,7 +1,7 @@
 <ims-table
   #imsTable
   [configTable]="configTable"
-  [tableData]="filteredInventario"
+  [tableData]="filteredMatrimonio"
   [showTemplate]="true"
   class="pt-3"
 >
@@ -11,7 +11,7 @@
   >
     <ims-search
       [(ngModel)]="searchTerm"
-      (ngModelChange)="filterInventario()"
+      (ngModelChange)="filterMatrimonio()"
     ></ims-search>
     <div
       class="flex gap-2 w-full sm:w-auto justify-content-end flex-order-2 sm:flex-order-1"

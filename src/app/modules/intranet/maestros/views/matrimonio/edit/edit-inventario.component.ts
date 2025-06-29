@@ -37,13 +37,13 @@ import { SolicitudService } from '../../../services/inventario.service';
   ],
 })
 export class EditMatrimonioComponent implements OnInit {
-  @Output() inventarioSaved = new EventEmitter<void>();
+  @Output() matrimonioSaved = new EventEmitter<void>();
   visible: boolean = false;
   title: string = '';
   data: TramiteModel = new TramiteModel();
   codigo: string = '';
   nombre: string = '';
-  listInventario: TramiteModel[] = [];
+  listMatrimonio: TramiteModel[] = [];
   municipalidadCbo: any[] = [];
   distritoCbo: any[] = [];
   form: FormGroup;
@@ -59,15 +59,15 @@ export class EditMatrimonioComponent implements OnInit {
       dniSolicitante: ['', Validators.required],
       nombreSolicitante: ['', Validators.required],
       correoSolicitante: ['', Validators.required],
-      celularSolicitante: [''],
-      direccionSolicitante: [''],
-      dniConyuge: [''],
-      nombreConyuge: [''],
-      correoConyuge: [''],
-      celularConyuge: [''],
-      fechaMatrimonio: [new Date()],
-      municipalidad: [''],
-      distrito: [''],
+      celularSolicitante: ['', Validators.required],
+      direccionSolicitante: ['', Validators.required],
+      dniConyuge: ['', Validators.required],
+      nombreConyuge: ['', Validators.required],
+      correoConyuge: ['', Validators.required],
+      celularConyuge: ['', Validators.required],
+      fechaMatrimonio: [new Date(), Validators.required],
+      municipalidad: ['', Validators.required],
+      distrito: ['', Validators.required],
     });
   }
 
@@ -196,21 +196,29 @@ export class EditMatrimonioComponent implements OnInit {
       }
 
       if (!tramite.id) {
-        this.tramiteService.addTramite(tramite).subscribe((response) => {
-          this.inventarioSaved.emit();
-          this.alertService.success('Registro Agregado Exitosamente');
-          this.close();
+        this.tramiteService.addTramite(tramite).subscribe({
+          next: (response) => {
+            this.matrimonioSaved.emit();
+            this.alertService.success('Registro Agregado Exitosamente');
+            this.close();
+          },
+          error: (error) => {
+            const mensaje =
+              error?.error?.error || 'Error al agregar el registro';
+            this.alertService.error(mensaje);
+          },
         });
       } else {
         this.tramiteService.updateTramite(tramite.id, tramite).subscribe(
           () => {
-            this.inventarioSaved.emit();
+            this.matrimonioSaved.emit();
             this.alertService.success('Registro Actualizado Exitosamente');
             this.close();
           },
           (error) => {
-            console.error('❌ Error al actualizar el tramite:', error);
-            this.alertService.error('Error al actualizar la licencia');
+            const mensaje =
+              error?.error?.error || 'Error al actualizar la licencia';
+            this.alertService.error(mensaje);
           },
         );
       }
@@ -223,4 +231,3 @@ export class EditMatrimonioComponent implements OnInit {
     this.datosPagoExtraidos = null;
   }
 }
-

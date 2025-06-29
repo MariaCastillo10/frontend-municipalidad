@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
- apiUrl: 'https://backend-municipalidad-467852f9b262.herokuapp.com',
+  apiUrl: 'http://localhost:5001',
   apiFront: 'https://primequalitycontrol.com',
-    firebaseConfig: {
+  firebaseConfig: {
     apiKey: 'AIzaSyCUd0nCu8kfZ8cGYGtg319yjHHNuQk71jA',
     authDomain: 'minxtura-115.firebaseapp.com',
     projectId: 'minxtura-115',

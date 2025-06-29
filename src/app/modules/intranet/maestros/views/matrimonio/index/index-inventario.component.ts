@@ -26,7 +26,7 @@ import { rptModuleExcel } from '../../../utils/report-excel';
 import { rptModulePDF } from '../../../utils/report-pdf';
 import { EditMatrimonioComponent } from '../edit/edit-inventario.component';
 @Component({
-  selector: 'list-inventario',
+  selector: 'list-matrimonio',
   standalone: true,
   imports: [
     IMSTableComponent,
@@ -55,8 +55,8 @@ export class MatrimoniosComponent implements OnInit {
 
   fb = inject(FormBuilder);
   http = inject(HttpClient);
-  listInventario: TramiteModel[] = [];
-  filteredInventario: TramiteModel[] = [];
+  listMatrimonio: TramiteModel[] = [];
+  filteredMatrimonio: TramiteModel[] = [];
   searchTerm: string = '';
 
   configTable: ITableConfig = {
@@ -104,7 +104,7 @@ export class MatrimoniosComponent implements OnInit {
 
   list() {
     this.solicitudService.getTramiteList().subscribe((response: any) => {
-      this.listInventario = (response || []).map(
+      this.listMatrimonio = (response || []).map(
         (item: any, index: number) => ({
           ...item,
           id: item._id,
@@ -113,13 +113,13 @@ export class MatrimoniosComponent implements OnInit {
           estadoValue: item.estado,
         }),
       );
-      this.filteredInventario = this.listInventario;
+      this.filteredMatrimonio = this.listMatrimonio;
     });
   }
 
-  filterInventario() {
+  filterMatrimonio() {
     const searchValue = this.searchTerm.toLowerCase();
-    this.filteredInventario = this.listInventario.filter((Calibers) =>
+    this.filteredMatrimonio = this.listMatrimonio.filter((Calibers) =>
       Object.values(Calibers).some((val) =>
         String(val).toLowerCase().includes(searchValue),
       ),
@@ -127,7 +127,7 @@ export class MatrimoniosComponent implements OnInit {
   }
 
   edit(rowData: any) {
-    this.editInventarioComponent.inventarioSaved.subscribe(() => {
+    this.editInventarioComponent.matrimonioSaved.subscribe(() => {
       this.list();
       this.searchTerm = '';
     });
@@ -166,7 +166,7 @@ export class MatrimoniosComponent implements OnInit {
   }
 
   new() {
-    this.editInventarioComponent.inventarioSaved.subscribe(() => {
+    this.editInventarioComponent.matrimonioSaved.subscribe(() => {
       this.list();
       this.searchTerm = '';
     });
@@ -198,7 +198,7 @@ export class MatrimoniosComponent implements OnInit {
 
   exportToExcel = async () => {
     try {
-      await rptModuleExcel.rptMatrimonioExcel.create(this.filteredInventario);
+      await rptModuleExcel.rptMatrimonioExcel.create(this.filteredMatrimonio);
     } catch (error) {
       console.error('Error al exportar a Excel:', error);
     }
@@ -207,7 +207,7 @@ export class MatrimoniosComponent implements OnInit {
   exportToPDF = async () => {
     try {
       const pdf = await rptModulePDF.rptMatrominioPdf.create(
-        this.filteredInventario,
+        this.filteredMatrimonio,
       );
       pdf.download(`Rpt-Divorcios - ${new Date().toLocaleDateString()}.pdf`);
     } catch (error) {
