@@ -14,7 +14,7 @@ export type filterProductsRPT = {
 };
 
 export module rptModulePDF {
-  export class rptMatrominioPdf extends PDFUtil {
+  export class rptDivorcioPdf extends PDFUtil {
     static async create(data: any[]): Promise<ICreatePDF> {
       const pdf = this.getInstance();
 
@@ -40,7 +40,7 @@ export module rptModulePDF {
 
         new Table([
           [
-            new Txt('REGISTROS DE MATRIMONIOS')
+            new Txt('REGISTROS DE DIVORCIOS')
               .style('cellbold')
               .alignment('center')
               .fontSize(12)
@@ -62,7 +62,7 @@ export module rptModulePDF {
         content.push([
           new Txt(item.nombreSolicitante).style('cell').alignment('center').end,
           new Txt(item.nombreConyuge).style('cell').alignment('center').end,
-          new Txt(item.estado).style('cell').alignment('center').end
+          new Txt(item.estado).style('cell').alignment('center').end,
         ]);
       }
 
@@ -70,7 +70,7 @@ export module rptModulePDF {
         [
           new Txt('Solicitante').style('cellbold').color('#FFF').end,
           new Txt('Cónyuge').style('cellbold').color('#FFF').end,
-          new Txt('Estado').style('cellbold').color('#FFF').end
+          new Txt('Estado').style('cellbold').color('#FFF').end,
         ],
         ...content,
       ])
@@ -161,6 +161,86 @@ export module rptModulePDF {
         ...content,
       ])
         .widths([60, 50, '*', 50, '*', 60, 50, '*', '*'])
+        .layout({
+          fillColor: this.fillColorHeader,
+          hLineColor: () => '#eee',
+          vLineColor: () => '#eee',
+        }).end;
+
+      pdf.add(title);
+      pdf.add(table);
+
+      return pdf.create();
+    }
+  }
+
+  export class rptPermisosPdf extends PDFUtilLandscape {
+    static async create(data: any[]): Promise<ICreatePDF> {
+      const pdf = this.getInstance();
+
+      const content: any[] = [];
+
+      const title = new Stack([
+        new Table([
+          [
+            await new Img('./assets/layout/images/favicon-cevicheria.png')
+              .fit([50, 50])
+              .margin([43, 0, 43, 0])
+              .build(),
+          ],
+        ])
+          .widths(['auto'])
+          .margin([10, 25, 25, 10])
+          .layout({
+            fillColor: () => '#FFFFFF',
+            hLineColor: () => '#2C73C0',
+            vLineColor: () => '#2C73C0',
+          })
+          .absolutePosition(41, 27).end,
+
+        new Table([
+          [
+            new Txt('REGISTROS DE PERMISOS')
+              .style('cellbold')
+              .alignment('center')
+              .fontSize(12)
+              .color('#FFF')
+              .margin([180, 10, 320, 10]).end,
+          ],
+        ])
+          .widths(['auto'])
+          .margin([10, 10, 10, 10])
+          .layout({
+            fillColor: this.fillColorHeader,
+            hLineColor: () => '#FFF',
+            vLineColor: () => '#FFF',
+          })
+          .absolutePosition(186, 25).end,
+      ]).end;
+
+      for (const item of data) {
+        content.push([
+          new Txt(item.lugar).style('cell').alignment('center').end,
+          new Txt(item.fecha).style('cell').alignment('center').end,
+          new Txt(item.horario).style('cell').alignment('center').end,
+          new Txt(item.aforo).style('cell').alignment('center').end,
+          new Txt(item.costo).style('cell').alignment('center').end,
+          new Txt(item.estado).style('cell').alignment('center').end,
+        ]);
+      }
+
+      const table = new Table([
+        [
+          new Txt('Lugar').style('cellbold').color('#FFF').end,
+          new Txt('Fecha').style('cellbold').color('#FFF').end,
+          new Txt('Horario').style('cellbold').color('#FFF').end,
+          new Txt('Aforo').style('cellbold').color('#FFF').end,
+          new Txt('Costo x Aforo').style('cellbold').color('#FFF').end,
+          new Txt('Estado').style('cellbold').color('#FFF').end,
+        ],
+        ...content,
+      ])
+        .widths(['*', '*', '*', '*', '*', '*'])
         .layout({
           fillColor: this.fillColorHeader,
           hLineColor: () => '#eee',

@@ -1,7 +1,7 @@
 <ims-table
   #imsTable
   [configTable]="configTable"
-  [tableData]="filteredInventario"
+  [tableData]="filteredPermiso"
   [showTemplate]="true"
   class="pt-3"
 >
@@ -36,8 +36,10 @@
     <td>
       <span>{{ value.index }}</span>
     </td>
-        <td>
-      <span class="column-style" [pTooltip]="value.nombreSolicitante">{{ value.nombreSolicitante }}</span>
+    <td>
+      <span class="column-style" [pTooltip]="value.nombreSolicitante">{{
+        value.nombreSolicitante
+      }}</span>
     </td>
     <td>
       <span class="column-style" [pTooltip]="value.tipo">{{ value.tipo }}</span>

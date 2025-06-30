@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IMSTableComponent } from '@shared/components';
 import { ButtonItems, ITableConfig } from '@shared/interfaces';
@@ -21,9 +21,6 @@ import { AlertService } from '../../../../../../../shared/services/alert.service
 import { PopupService } from '../../../../../../../shared/services/dialog.service';
 import { Converter } from '../../../../../../../shared/tools/converter.helper';
 import { TramiteModel } from '../../../models/inventario.model';
-import { SolicitudService } from '../../../services/inventario.service';
-import { rptModuleExcel } from '../../../utils/report-excel';
-import { rptModulePDF } from '../../../utils/report-pdf';
 import { ResumenService } from '../../../services/resumen.service';
 
 @Component({
@@ -50,7 +47,6 @@ import { ResumenService } from '../../../services/resumen.service';
   providers: [AlertService, ConfirmationService, MessageService],
 })
 export class ResumenComponent implements OnInit {
-
   fb = inject(FormBuilder);
   http = inject(HttpClient);
   listInventario: TramiteModel[] = [];
@@ -70,7 +66,11 @@ export class ResumenComponent implements OnInit {
       { columnName: 'Modulo', property: 'modulo', sortable: true },
       { columnName: 'Área', property: 'areaDestino', sortable: true },
       { columnName: 'Prioridad', property: 'prioridad', sortable: true },
-      { columnName: 'Msjs enviados', property: 'totalEnviados', sortable: true }
+      {
+        columnName: 'Msjs enviados',
+        property: 'totalEnviados',
+        sortable: true,
+      },
     ],
   };
 
@@ -109,7 +109,6 @@ export class ResumenComponent implements OnInit {
         }),
       );
       this.filteredInventario = this.listInventario;
-      console.log('this.filteredInventario ', this.filteredInventario )
     });
   }
 
@@ -130,20 +129,13 @@ export class ResumenComponent implements OnInit {
     }
   }
 
-  aprobar(rowData: any) {
-  }
+  aprobar(rowData: any) {}
 
-  new() {
-  }
+  new() {}
 
-  delete(rowData: any) {
-  }
+  delete(rowData: any) {}
 
-  exportToExcel = async () => {
+  exportToExcel = async () => {};
 
-  };
-
-  exportToPDF = async () => {
-
-  };
+  exportToPDF = async () => {};
 }

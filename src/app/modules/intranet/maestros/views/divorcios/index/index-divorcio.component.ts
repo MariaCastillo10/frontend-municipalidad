@@ -21,12 +21,12 @@ import { AlertService } from '../../../../../../../shared/services/alert.service
 import { PopupService } from '../../../../../../../shared/services/dialog.service';
 import { Converter } from '../../../../../../../shared/tools/converter.helper';
 import { TramiteModel } from '../../../models/inventario.model';
-import { SolicitudService } from '../../../services/inventario.service';
+import { DivorcioService } from '../../../services/inventario.service';
 import { rptModuleExcel } from '../../../utils/report-excel';
 import { rptModulePDF } from '../../../utils/report-pdf';
-import { EditMatrimonioComponent } from '../edit/edit-inventario.component';
+import { EditDivorcioComponent } from '../edit/edit-divorcio.component';
 @Component({
-  selector: 'list-matrimonio',
+  selector: 'list-divorcios',
   standalone: true,
   imports: [
     IMSTableComponent,
@@ -42,21 +42,21 @@ import { EditMatrimonioComponent } from '../edit/edit-inventario.component';
     MessageModule,
     MessagesModule,
     ToastModule,
-    EditMatrimonioComponent,
+    EditDivorcioComponent,
     TooltipModule,
     BadgeModule,
   ],
-  templateUrl: './index-inventario.component.html',
+  templateUrl: './index-divorcio.component.html',
   providers: [AlertService, ConfirmationService, MessageService],
 })
-export class MatrimoniosComponent implements OnInit {
-  @ViewChild(EditMatrimonioComponent)
-  editInventarioComponent!: EditMatrimonioComponent;
+export class DivorciosComponent implements OnInit {
+  @ViewChild(EditDivorcioComponent)
+  editInventarioComponent!: EditDivorcioComponent;
 
   fb = inject(FormBuilder);
   http = inject(HttpClient);
-  listMatrimonio: TramiteModel[] = [];
-  filteredMatrimonio: TramiteModel[] = [];
+  listDivorcio: TramiteModel[] = [];
+  filteredDivorcio: TramiteModel[] = [];
   searchTerm: string = '';
 
   configTable: ITableConfig = {
@@ -88,7 +88,7 @@ export class MatrimoniosComponent implements OnInit {
 
   constructor(
     private popup: PopupService,
-    private solicitudService: SolicitudService,
+    private divorcioService: DivorcioService,
     private alertService: AlertService,
   ) {
     this.items = Converter.createButtonItems(
@@ -103,23 +103,21 @@ export class MatrimoniosComponent implements OnInit {
   }
 
   list() {
-    this.solicitudService.getTramiteList().subscribe((response: any) => {
-      this.listMatrimonio = (response || []).map(
-        (item: any, index: number) => ({
-          ...item,
-          id: item._id,
-          index: index + 1,
-          estado: Constans.TYPE_ESTADO.toString(item.estado),
-          estadoValue: item.estado,
-        }),
-      );
-      this.filteredMatrimonio = this.listMatrimonio;
+    this.divorcioService.getTramiteList().subscribe((response: any) => {
+      this.listDivorcio = (response || []).map((item: any, index: number) => ({
+        ...item,
+        id: item._id,
+        index: index + 1,
+        estado: Constans.TYPE_ESTADO.toString(item.estado),
+        estadoValue: item.estado,
+      }));
+      this.filteredDivorcio = this.listDivorcio;
     });
   }
 
-  filterMatrimonio() {
+  filterDivorcio() {
     const searchValue = this.searchTerm.toLowerCase();
-    this.filteredMatrimonio = this.listMatrimonio.filter((Calibers) =>
+    this.filteredDivorcio = this.listDivorcio.filter((Calibers) =>
       Object.values(Calibers).some((val) =>
         String(val).toLowerCase().includes(searchValue),
       ),
@@ -127,7 +125,7 @@ export class MatrimoniosComponent implements OnInit {
   }
 
   edit(rowData: any) {
-    this.editInventarioComponent.matrimonioSaved.subscribe(() => {
+    this.editInventarioComponent.divorcioSaved.subscribe(() => {
       this.list();
       this.searchTerm = '';
     });
@@ -148,7 +146,7 @@ export class MatrimoniosComponent implements OnInit {
       `¿Está seguro de aprobar la solicitud de <strong>${rowData.nombreSolicitante}</strong>?`,
       'Aprobar solicitud',
       () => {
-        this.solicitudService.updateEstadoTramite(rowData._id, 2).subscribe({
+        this.divorcioService.updateEstadoTramite(rowData._id, 2).subscribe({
           next: () => {
             this.alertService.success('Registro aprobado exitosamente');
             this.list();
@@ -166,7 +164,7 @@ export class MatrimoniosComponent implements OnInit {
   }
 
   new() {
-    this.editInventarioComponent.matrimonioSaved.subscribe(() => {
+    this.editInventarioComponent.divorcioSaved.subscribe(() => {
       this.list();
       this.searchTerm = '';
     });
@@ -175,30 +173,30 @@ export class MatrimoniosComponent implements OnInit {
   }
 
   delete(rowData: any) {
-    // this.alertService.confirm(
-    //   `¿Está seguro de eliminar el registro <strong>${rowData.nombre}</strong>?`,
-    //   'Eliminar registro',
-    //   () => {
-    //     this.solicitudService
-    //       .deleteInventarioItem(rowData.id)
-    //       .then(() => {
-    //         this.alertService.success('Registro eliminado correctamente');
-    //         this.searchTerm = '';
-    //         this.list();
-    //       })
-    //       .catch((error) => {
-    //         console.error('❌ Error al eliminar el registro:', error);
-    //       });
-    //   },
-    //   () => {
-    //     console.log('🛑 Eliminación cancelada');
-    //   },
-    // );
+    this.alertService.confirm(
+      `¿Está seguro de eliminar la solicitud de <strong>${rowData.nombreSolicitante}</strong>?`,
+      'Aprobar solicitud',
+      () => {
+        this.divorcioService.deleteTramite(rowData._id).subscribe({
+          next: () => {
+            this.alertService.success('Registro eliminado exitosamente');
+            this.list();
+          },
+          error: (error) => {
+            console.error('❌ Error al aprobar:', error);
+            this.alertService.error('No se pudo eliminar la solicitud');
+          },
+        });
+      },
+      () => {
+        console.log('🛑 Aprobación cancelada');
+      },
+    );
   }
 
   exportToExcel = async () => {
     try {
-      await rptModuleExcel.rptMatrimonioExcel.create(this.filteredMatrimonio);
+      await rptModuleExcel.rptDivorcioExcel.create(this.filteredDivorcio);
     } catch (error) {
       console.error('Error al exportar a Excel:', error);
     }
@@ -206,8 +204,8 @@ export class MatrimoniosComponent implements OnInit {
 
   exportToPDF = async () => {
     try {
-      const pdf = await rptModulePDF.rptMatrominioPdf.create(
-        this.filteredMatrimonio,
+      const pdf = await rptModulePDF.rptDivorcioPdf.create(
+        this.filteredDivorcio,
       );
       pdf.download(`Rpt-Divorcios - ${new Date().toLocaleDateString()}.pdf`);
     } catch (error) {

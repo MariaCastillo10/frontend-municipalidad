@@ -241,7 +241,7 @@ export class RentasComponent implements OnInit {
 
   exportToExcel = async () => {
     try {
-      await rptModuleExcel.rptMatrimonioExcel.create(this.filteredInventario);
+      await rptModuleExcel.rptDivorcioExcel.create(this.filteredInventario);
     } catch (error) {
       console.error('Error al exportar a Excel:', error);
     }
@@ -249,7 +249,7 @@ export class RentasComponent implements OnInit {
 
   exportToPDF = async () => {
     try {
-      const pdf = await rptModulePDF.rptMatrominioPdf.create(
+      const pdf = await rptModulePDF.rptDivorcioPdf.create(
         this.filteredInventario,
       );
       pdf.download(`Rpt-Divorcios - ${new Date().toLocaleDateString()}.pdf`);

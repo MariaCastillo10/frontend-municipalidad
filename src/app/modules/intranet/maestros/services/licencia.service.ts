@@ -40,4 +40,10 @@ export class LicenciaService {
       licencia,
     );
   }
+
+  deleteLicencia(id: string): Observable<any> {
+    return this.http.delete(
+      `${this.apiUrl}/api${PATHS.INTRANET.Licencia}/${id}`,
+    );
+  }
 }

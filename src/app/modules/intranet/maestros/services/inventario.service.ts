@@ -9,56 +9,10 @@ import { TramiteModel } from '../models/inventario.model';
 @Injectable({
   providedIn: 'root',
 })
-// export class InventarioService {
-//   private apiUrl = environment.apiUrl;
-
-//   constructor(private http: HttpClient) {}
-
-//   getInventarioList(): Observable<IResponseList<InventarioModel[]>> {
-//     return this.http.get<IResponseList<InventarioModel[]>>(
-//       `${this.apiUrl}${PATHS.INTRANET.Inventario}`,
-//     );
-//   }
-
-//   addCalibers(calibers: InventarioModel): Observable<InventarioModel> {
-//     return this.http.post<InventarioModel>(
-//       `${this.apiUrl + PATHS.INTRANET.Inventario}`,
-//       calibers,
-//     );
-//   }
-
-//   updateCalibers(
-//     id: string,
-//     calibers: InventarioModel,
-//   ): Observable<InventarioModel> {
-//     return this.http.put<InventarioModel>(
-//       `${this.apiUrl}${PATHS.INTRANET.Inventario}/${id}`,
-//       calibers,
-//     );
-//   }
-
-//   deleteCalibers(id: string): Observable<void> {
-//     return this.http.put<void>(
-//       `${this.apiUrl}${PATHS.INTRANET.Inventario}/${id}/remove`,
-//       {},
-//     );
-//   }
-
-//   deleteMultipleCalibers(ids: string[]): Observable<void> {
-//     const body = { ids };
-//     return this.http.put<void>(
-//       `${this.apiUrl}${PATHS.INTRANET.Inventario}/remove`,
-//       body,
-//     );
-//   }
-// }
-export class SolicitudService {
+export class DivorcioService {
   private apiUrl = environment.apiUrl;
 
-  constructor(
-    private http: HttpClient,
-  ) {
-  }
+  constructor(private http: HttpClient) {}
 
   getTramiteList(): Observable<IResponseList<TramiteModel[]>> {
     return this.http.get<IResponseList<TramiteModel[]>>(
@@ -91,6 +45,12 @@ export class SolicitudService {
     return this.http.put(
       `${this.apiUrl}/api${PATHS.INTRANET.Tramite}/${id}`,
       licencia,
+    );
+  }
+
+  deleteTramite(id: string): Observable<any> {
+    return this.http.delete(
+      `${this.apiUrl}/api${PATHS.INTRANET.Tramite}/${id}`,
     );
   }
 }

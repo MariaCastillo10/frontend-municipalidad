@@ -55,15 +55,15 @@ export class PermisosComponent implements OnInit {
 
   fb = inject(FormBuilder);
   http = inject(HttpClient);
-  listInventario: TramiteModel[] = [];
-  filteredInventario: TramiteModel[] = [];
+  listPermiso: TramiteModel[] = [];
+  filteredPermiso: TramiteModel[] = [];
   searchTerm: string = '';
 
   configTable: ITableConfig = {
     selection: false,
     columns: [
       { columnName: '#', property: 'index', sortable: true },
-            {
+      {
         columnName: 'Nombres',
         property: 'nombreSolicitante',
         sortable: true,
@@ -113,24 +113,22 @@ export class PermisosComponent implements OnInit {
 
   list() {
     this.permisoService.getPermisoList().subscribe((response: any) => {
-      this.listInventario = (response || []).map(
-        (item: any, index: number) => ({
-          ...item,
-          id: item._id,
-          index: index + 1,
-          tipo: Constans.TIPO_PERMISO.toString(item.tipo),
-          estadoValue: item.estado,
-          estado: Constans.TYPE_ESTADO.toString(item.estado),
-          lugar: Constans.LUGAR_LIST.toString(item.lugar),
-        }),
-      );
-      this.filteredInventario = this.listInventario;
+      this.listPermiso = (response || []).map((item: any, index: number) => ({
+        ...item,
+        id: item._id,
+        index: index + 1,
+        tipo: Constans.TIPO_PERMISO.toString(item.tipo),
+        estadoValue: item.estado,
+        estado: Constans.TYPE_ESTADO.toString(item.estado),
+        lugar: Constans.LUGAR_LIST.toString(item.lugar),
+      }));
+      this.filteredPermiso = this.listPermiso;
     });
   }
 
   filterInventario() {
     const searchValue = this.searchTerm.toLowerCase();
-    this.filteredInventario = this.listInventario.filter((Calibers) =>
+    this.filteredPermiso = this.listPermiso.filter((Calibers) =>
       Object.values(Calibers).some((val) =>
         String(val).toLowerCase().includes(searchValue),
       ),
@@ -185,11 +183,31 @@ export class PermisosComponent implements OnInit {
     this.displayPopup = true;
   }
 
-  delete(rowData: any) {}
+  delete(rowData: any) {
+    this.alertService.confirm(
+      `¿Está seguro de eliminar la solicitud de <strong>${rowData.nombreSolicitante}</strong>?`,
+      'Aprobar solicitud',
+      () => {
+        this.permisoService.deletePermiso(rowData._id).subscribe({
+          next: () => {
+            this.alertService.success('Registro eliminado exitosamente');
+            this.list();
+          },
+          error: (error) => {
+            console.error('❌ Error al aprobar:', error);
+            this.alertService.error('No se pudo eliminar la solicitud');
+          },
+        });
+      },
+      () => {
+        console.log('🛑 Aprobación cancelada');
+      },
+    );
+  }
 
   exportToExcel = async () => {
     try {
-      await rptModuleExcel.rptMatrimonioExcel.create(this.filteredInventario);
+      await rptModuleExcel.rptPermisoExcel.create(this.filteredPermiso);
     } catch (error) {
       console.error('Error al exportar a Excel:', error);
     }
@@ -197,8 +215,8 @@ export class PermisosComponent implements OnInit {
 
   exportToPDF = async () => {
     try {
-      const pdf = await rptModulePDF.rptMatrominioPdf.create(
-        this.filteredInventario,
+      const pdf = await rptModulePDF.rptPermisosPdf.create(
+        this.filteredPermiso,
       );
       pdf.download(`Rpt-Divorcios - ${new Date().toLocaleDateString()}.pdf`);
     } catch (error) {

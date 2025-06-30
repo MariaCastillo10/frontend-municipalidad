@@ -1,7 +1,7 @@
 <ims-table
   #imsTable
   [configTable]="configTable"
-  [tableData]="filteredMatrimonio"
+  [tableData]="filteredDivorcio"
   [showTemplate]="true"
   class="pt-3"
 >
@@ -11,7 +11,7 @@
   >
     <ims-search
       [(ngModel)]="searchTerm"
-      (ngModelChange)="filterMatrimonio()"
+      (ngModelChange)="filterDivorcio()"
     ></ims-search>
     <div
       class="flex gap-2 w-full sm:w-auto justify-content-end flex-order-2 sm:flex-order-1"
@@ -91,6 +91,6 @@
   </ng-template>
 </ims-table>
 
-<app-edit-inventario></app-edit-inventario>
+<app-edit-divorcio></app-edit-divorcio>
 <p-confirmDialog></p-confirmDialog>
 <p-toast></p-toast>

@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { MatrimoniosComponent } from '../../intranet/maestros/views/matrimonio/index/index-inventario.component';
+import { DivorciosComponent } from '../../intranet/maestros/views/divorcios/index/index-divorcio.component';
 
 export const InventarioRoutes: Routes = [
   {
     path: '',
     data: { breadcrumb: 'Divorcios' },
-    component: MatrimoniosComponent,
+    component: DivorciosComponent,
   },
 ];

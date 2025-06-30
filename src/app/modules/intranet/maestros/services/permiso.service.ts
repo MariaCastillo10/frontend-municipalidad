@@ -40,4 +40,10 @@ export class PermisoService {
       licencia,
     );
   }
+
+  deletePermiso(id: string): Observable<any> {
+    return this.http.delete(
+      `${this.apiUrl}/api${PATHS.INTRANET.Permiso}/${id}`,
+    );
+  }
 }

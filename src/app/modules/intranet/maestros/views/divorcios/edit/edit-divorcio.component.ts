@@ -17,12 +17,12 @@ import { PopupComponent } from '../../../../../../../shared/components/popup/pop
 import { AlertService } from '../../../../../../../shared/services/alert.service';
 import { PopupService } from '../../../../../../../shared/services/dialog.service';
 import { TramiteModel } from '../../../models/inventario.model';
-import { SolicitudService } from '../../../services/inventario.service';
+import { DivorcioService } from '../../../services/inventario.service';
 
 @Component({
-  selector: 'app-edit-inventario',
-  templateUrl: './edit-inventario.component.html',
-  styleUrls: ['./edit-inventario.component.scss'],
+  selector: 'app-edit-divorcio',
+  templateUrl: './edit-divorcio.component.html',
+  styleUrls: ['./edit-divorcio.component.scss'],
   standalone: true,
   imports: [
     PopupComponent,
@@ -36,14 +36,14 @@ import { SolicitudService } from '../../../services/inventario.service';
     FileUploadModule,
   ],
 })
-export class EditMatrimonioComponent implements OnInit {
-  @Output() matrimonioSaved = new EventEmitter<void>();
+export class EditDivorcioComponent implements OnInit {
+  @Output() divorcioSaved = new EventEmitter<void>();
   visible: boolean = false;
   title: string = '';
   data: TramiteModel = new TramiteModel();
   codigo: string = '';
   nombre: string = '';
-  listMatrimonio: TramiteModel[] = [];
+  listDivorcio: TramiteModel[] = [];
   municipalidadCbo: any[] = [];
   distritoCbo: any[] = [];
   form: FormGroup;
@@ -52,7 +52,7 @@ export class EditMatrimonioComponent implements OnInit {
   constructor(
     public popupService: PopupService,
     private fb: FormBuilder,
-    private tramiteService: SolicitudService,
+    private tramiteService: DivorcioService,
     public alertService: AlertService,
   ) {
     this.form = this.fb.group({
@@ -83,6 +83,7 @@ export class EditMatrimonioComponent implements OnInit {
     });
     this.popupService.popupData$.subscribe((data) => {
       this.data = new TramiteModel(data);
+      console.log('this.data', this.data);
       let fechaMatrimonio = this.data.fechaMatrimonio
         ? new Date(this.data.fechaMatrimonio)
         : null;
@@ -198,7 +199,7 @@ export class EditMatrimonioComponent implements OnInit {
       if (!tramite.id) {
         this.tramiteService.addTramite(tramite).subscribe({
           next: (response) => {
-            this.matrimonioSaved.emit();
+            this.divorcioSaved.emit();
             this.alertService.success('Registro Agregado Exitosamente');
             this.close();
           },
@@ -211,7 +212,7 @@ export class EditMatrimonioComponent implements OnInit {
       } else {
         this.tramiteService.updateTramite(tramite.id, tramite).subscribe(
           () => {
-            this.matrimonioSaved.emit();
+            this.divorcioSaved.emit();
             this.alertService.success('Registro Actualizado Exitosamente');
             this.close();
           },

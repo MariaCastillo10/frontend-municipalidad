@@ -178,7 +178,27 @@ export class LicenciasComponent implements OnInit {
     this.displayPopup = true;
   }
 
-  delete(rowData: any) {}
+  delete(rowData: any) {
+    this.alertService.confirm(
+      `¿Está seguro de eliminar la solicitud de <strong>${rowData.representanteLegal}</strong>?`,
+      'Aprobar solicitud',
+      () => {
+        this.licenciaService.deleteLicencia(rowData._id).subscribe({
+          next: () => {
+            this.alertService.success('Registro eliminado exitosamente');
+            this.list();
+          },
+          error: (error) => {
+            console.error('❌ Error al aprobar:', error);
+            this.alertService.error('No se pudo eliminar la solicitud');
+          },
+        });
+      },
+      () => {
+        console.log('🛑 Aprobación cancelada');
+      },
+    );
+  }
 
   exportToExcel = async () => {
     try {

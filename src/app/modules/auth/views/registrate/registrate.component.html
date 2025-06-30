@@ -45,11 +45,14 @@
         <h3>Teléfono</h3>
         <input
           pInputText
-          type="number"
+          type="tel"
           name="telefono"
-          placeholder="Ingresa tu telefono"
+          placeholder="Ingresa tu teléfono"
           required
+          maxlength="9"
+          pattern="\d{9}"
           [(ngModel)]="registerData.telefono"
+          (input)="onTelefonoInput($event)"
         />
       </div>
       <div class="input-group" style="position: relative">

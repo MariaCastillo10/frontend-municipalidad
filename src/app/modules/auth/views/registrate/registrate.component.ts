@@ -66,6 +66,17 @@ export class RegistrateComponent {
     return emailRegex.test(email);
   }
 
+  validateTelefono(telefono: string): boolean {
+    const telefonoRegex = /^\d{9}$/;
+    return telefonoRegex.test(telefono);
+  }
+
+  // Opcional: Limita la entrada solo a números en tiempo real
+  onTelefonoInput(event: any) {
+    event.target.value = event.target.value.replace(/[^0-9]/g, '').slice(0, 9);
+    this.registerData.telefono = event.target.value;
+  }
+
   register() {
     this.registerData.nombres = this.registerData.nombres.trim();
     this.registerData.email = this.registerData.email.trim();
@@ -79,6 +90,13 @@ export class RegistrateComponent {
 
     if (!this.validateEmail(this.registerData.email)) {
       this.alertService.warn('El correo no es válido');
+      return;
+    }
+
+    if (!this.validateTelefono(this.registerData.telefono)) {
+      this.alertService.warn(
+        'El teléfono debe tener exactamente 9 dígitos numéricos',
+      );
       return;
     }
 
